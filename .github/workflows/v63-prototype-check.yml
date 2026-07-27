@@ -1,0 +1,44 @@
+name: V6.3 prototype check
+
+on:
+  pull_request:
+    paths:
+      - 'v63/**'
+      - 'docs/v63-daily-dose.md'
+      - '.github/workflows/v63-prototype-check.yml'
+  push:
+    branches:
+      - 'v6.3/daily-dose'
+    paths:
+      - 'v63/**'
+      - 'docs/v63-daily-dose.md'
+      - '.github/workflows/v63-prototype-check.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify prototype files
+        run: |
+          test -f v63/index.html
+          test -f docs/v63-daily-dose.md
+          grep -q 'How are you' v63/index.html
+          grep -q 'practice hidden' v63/index.html
+          grep -q 'Something else' v63/index.html
+          grep -q 'Leave STATE' v63/index.html
+      - name: Validate embedded JavaScript syntax
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          html = Path('v63/index.html').read_text(encoding='utf-8')
+          scripts = re.findall(r'<script>([\s\S]*?)</script>', html)
+          if not scripts:
+              raise SystemExit('No embedded script found')
+          Path('/tmp/v63.js').write_text(scripts[-1], encoding='utf-8')
+          PY
+          node --check /tmp/v63.js
