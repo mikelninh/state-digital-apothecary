@@ -7,10 +7,6 @@ STATE is an experimental digital concept store for finite, intentional experienc
 
 > Did this experience improve the next hour of your actual life?
 
-## Live prototype
-
-[Open STATE Evidence Lab](https://mikelninh.github.io/state-digital-apothecary/)
-
 ## Current prototype
 
 This repository contains **STATE MVP v3 — Evidence Lab**, centred on the first working formula: **FOCUS 25**.
