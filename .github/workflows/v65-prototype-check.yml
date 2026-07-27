@@ -1,0 +1,40 @@
+name: V6.5 trusted daily use check
+
+on:
+  pull_request:
+    paths:
+      - 'v65/**'
+      - 'docs/v65-trusted-daily-use.md'
+      - '.github/workflows/v65-prototype-check.yml'
+  push:
+    branches:
+      - 'v6.5/trusted-daily-use'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify files and embedded script
+        shell: bash
+        run: |
+          test -f v65/index.html
+          test -f docs/v65-trusted-daily-use.md
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          html = Path('v65/index.html').read_text(encoding='utf-8')
+          required = [
+              'How are you', 'Why trust STATE?', 'Your 7-day conditions lab',
+              'DELAYED EVIDENCE', 'The business grows', 'practice', 'Leave STATE'
+          ]
+          for token in required:
+              assert token in html, token
+          scripts = re.findall(r'<script>(.*?)</script>', html, flags=re.S)
+          assert len(scripts) == 1
+          Path('/tmp/v65.js').write_text(scripts[0], encoding='utf-8')
+          PY
+          node --check /tmp/v65.js
