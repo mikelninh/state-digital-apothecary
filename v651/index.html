@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="STATE V6.5.1 Private Beta — mobile-first Daily Dose with safety, recovery and private feedback." />
+  <meta name="theme-color" content="#f3ede1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>STATE Private Beta 0.1 — Build 6.5.1</title>
+  <link rel="stylesheet" href="beta.css" />
+</head>
+<body>
+<div class="grain"></div><div class="ambient"></div>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand"><span class="mark">S</span><span>STATE</span><button class="build-chip" id="buildChip" type="button" aria-label="STATE private beta build information">BETA 0.1</button></div>
+    <div class="chapter" id="chapter">DAILY DOSE / ARRIVE</div>
+    <div class="top-actions">
+      <button class="feedback-button" id="openFeedback" type="button" aria-label="Share beta feedback">Feedback</button><button class="icon-button" id="openPatterns" aria-label="Open your patterns">↗</button>
+      <div class="mode-toggle" aria-label="Experience mode"><button type="button" class="active" data-mode="ritual">Ritual</button><button type="button" data-mode="quick">Quick</button></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="screen" id="arrival">
+      <div class="arrival-grid">
+        <div><div class="beta-nudge hidden" id="feedbackNudge"><div><b>Three real sessions.</b><span>Your honest feedback would help now.</span></div><button type="button" id="nudgeFeedback">Share feedback</button><button type="button" id="dismissNudge" aria-label="Dismiss feedback prompt">×</button></div><div class="eyebrow">PRIVATE · FINITE · LEARNS LOCALLY</div><h1>How are you<br><em>arriving?</em></h1><p class="lead">Choose what feels closest. STATE offers one finite condition and learns only from the results you choose to record on this device.</p></div>
+        <div class="selector">
+          <div class="selector-head"><h2>What feels most true?</h2><span>CHOOSE ONE<br>CHANGE IT ANYTIME</span></div>
+          <div class="state-list" id="stateList">
+            <button class="state-card" data-state="overwhelmed"><strong>Overwhelmed</strong><span>Everything feels like too much.</span></button>
+            <button class="state-card" data-state="scattered"><strong>Scattered</strong><span>My attention is everywhere.</span></button>
+            <button class="state-card" data-state="tense"><strong>Tense</strong><span>My body will not let go.</span></button>
+            <button class="state-card" data-state="flat"><strong>Flat</strong><span>I feel low or without energy.</span></button>
+            <button class="state-card" data-state="avoidant"><strong>Avoiding</strong><span>I know what I need to begin.</span></button>
+            <button class="state-card" data-state="lonely"><strong>Lonely</strong><span>I want safe human connection.</span></button>
+            <button class="state-card" data-state="other"><strong>Something else</strong><span>None of these words quite fit.</span></button>
+          </div>
+          <div class="other-input" id="otherInput"><textarea id="otherText" placeholder="A few private words about what is here…"></textarea></div>
+          <div class="selector-actions"><span class="hint" id="selectionHint">Nothing selected yet.</span><button class="button primary" id="continueButton" disabled>Continue →</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen hidden" id="recognition">
+      <div class="recognition-grid"><div class="recognition-copy"><div class="eyebrow">RECOGNITION BEFORE ADVICE</div><h2 id="recognitionTitle">You do not need to solve everything from here.</h2><p id="recognitionText">Let us create a little more space before deciding what comes next.</p><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:26px"><button class="button" id="backToStates">← Choose again</button><button class="button primary" id="seeCondition">See one condition →</button></div></div><div class="room-scene" aria-hidden="true"><div class="window"></div><div class="light"></div><div class="bench"></div><div class="vessel"><small>STATE / DAILY DOSE</small><b id="sceneName">CALM</b><strong id="sceneNumber">10</strong><span id="sceneUnit">GUIDED EXHALE</span></div></div></div>
+    </section>
+
+    <section class="screen hidden" id="recommendation">
+      <div class="recommend-grid">
+        <div class="recommend-copy"><div class="eyebrow">ONE RECOMMENDED CONDITION</div><h2 id="recommendTitle">Create a little more space.</h2><p id="recommendDescription">A gentle body-first practice using a comfortable longer exhale, sensory orientation and a clear return.</p><button class="button" id="backRecommendation">← Back</button></div>
+        <div class="recommend-card">
+          <div class="formula-lockup"><strong id="formulaName">CALM</strong><span class="number" id="formulaNumber">10</span></div><div class="formula-unit" id="formulaUnit">GUIDED EXHALE · 10 MINUTES</div>
+          <div class="personal-evidence" id="personalEvidence"><span class="label">YOUR EVIDENCE</span><strong>STATE starts at zero.</strong><p>After a few honest sessions, this space can show patterns from your own data—not universal claims.</p></div>
+          <div class="dose-options" id="doseOptions"><button class="dose-option active" data-seconds="60"><strong>Quick dose</strong><span>60 seconds</span></button><button class="dose-option" data-seconds="600"><strong>Full dose</strong><span id="fullDoseLabel">10 minutes</span></button></div>
+          <div class="before-box"><label for="beforeIntensity"><strong>How intense is this state now?</strong></label><div class="range-row"><input id="beforeIntensity" type="range" min="1" max="10" value="7"><output id="beforeValue">7</output></div></div>
+          <details class="science-drawer"><summary>Why this recommendation + limits ↓</summary><div class="science-content"><div class="science-block"><b>Likely mechanism</b><p id="scienceClaim">A comfortable longer exhale may influence breathing pace and cardiac autonomic regulation. Individual comfort matters.</p><a id="scienceSource" href="https://pubmed.ncbi.nlm.nih.gov/36630953/" target="_blank" rel="noreferrer">Source example ↗</a></div><div class="science-block"><b>Personal learning</b><p id="learningLimit">Your past sessions can guide dose length and timing. They do not establish causality or diagnose you.</p></div></div></details>
+          <button class="button acid" id="beginDose" style="width:100%;margin-top:18px">Begin 60-second dose →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen hidden" id="return">
+      <div class="return-grid"><div class="return-copy"><div class="eyebrow">IMMEDIATE REFLECTION</div><h2>What<br><em>changed now?</em></h2><p>The next-hour question comes later. Right now, record only what you can honestly observe.</p></div><form class="return-card" id="reflectionForm">
+        <div class="question"><label for="afterIntensity">How intense is the state now?</label><div class="range-row"><input id="afterIntensity" type="range" min="1" max="10" value="5"><output id="afterValue">5</output></div><p class="shift-feedback" id="shiftFeedback">A small shift is enough. No shift is also useful information.</p></div>
+        <fieldset class="question" style="border:0;padding:0"><legend>What will you do next?</legend><div class="next-action-grid"><label><input type="radio" name="nextAction" value="work" checked><span>One useful task</span></label><label><input type="radio" name="nextAction" value="rest"><span>Rest or recover</span></label><label><input type="radio" name="nextAction" value="connect"><span>Connect with someone</span></label><label><input type="radio" name="nextAction" value="move"><span>Move or go outside</span></label></div></fieldset>
+        <div class="question"><label for="note">What helped or got in the way? <span style="font-weight:400">(optional)</span></label><textarea class="note" id="note" placeholder="Stored only in this browser."></textarea></div>
+        <button class="button primary" type="submit" style="width:100%">Save and leave →</button>
+      </form></div>
+    </section>
+
+    <section class="screen hidden" id="door"><div class="return-grid"><div class="return-copy"><div class="eyebrow">THE OPEN DOOR</div><h2>Take the state<br><em>with you.</em></h2><p id="exitCopy">Choose the next kind action, not the fastest reaction. STATE will ask once, later, whether the next hour actually improved.</p><div class="door-actions"><button class="button acid" id="leaveState">Leave STATE →</button><button class="button" id="doorFeedback" type="button">Share beta feedback</button></div></div><div class="door-stage" aria-hidden="true"><div class="door-floor"></div><div class="open-door"></div></div></div></section>
+
+    <section class="screen hidden" id="patterns">
+      <div class="patterns-grid"><div class="patterns-copy"><div class="eyebrow">YOUR CONDITIONS MAP</div><h2>Patterns,<br><em>not verdicts.</em></h2><p>STATE shows only what your own records can support. Small samples remain uncertain. Missing data stays missing.</p><button class="button" id="backFromPatterns">← Back to today</button></div><div class="patterns-card"><div class="metric-grid"><div class="metric"><span>SESSIONS</span><strong id="metricSessions">0</strong><p>Completed or honestly exited.</p></div><div class="metric"><span>FOLLOW-UPS</span><strong id="metricFollowups">0</strong><p>One-hour outcomes recorded.</p></div><div class="metric"><span>IMMEDIATE SHIFT</span><strong id="metricShift">—</strong><p>Average before minus after.</p></div><div class="metric"><span>NEXT-HOUR USEFULNESS</span><strong id="metricHour">—</strong><p>Average personal rating out of 5.</p></div></div><div class="insight-list" id="insightList"></div><div class="data-actions"><button class="button" id="exportData">Export my data</button><button class="button" id="clearData">Delete local data</button></div><p class="micro" style="margin-top:14px;color:var(--muted)">NO CLOUD · NO STREAK · NO DIAGNOSIS</p><p class="build-line">STATE PRIVATE BETA · BUILD 6.5.1</p></div></div>
+    </section>
+  </main>
+</div>
+
+<nav class="bottom-dock" aria-label="Mobile navigation"><button class="active" data-dock="arrival">Today</button><button data-dock="patterns">My patterns</button></nav>
+
+<section class="practice hidden" id="practice" aria-hidden="true" data-phase="inhale">
+  <div class="practice-top"><div class="practice-brand"><i>S</i><span id="practiceFormula">CALM 10</span></div><div class="practice-time" id="practiceTime">01:00</div><button class="practice-exit" id="exitPractice">End gently</button></div>
+  <div class="practice-main"><div class="practice-core"><div class="orb-wrap"><div class="progress-ring" id="progressRing"></div><div class="orb-ring"></div><div class="orb"></div><div class="phase"><span id="phaseLabel">INHALE</span><strong id="phaseCount">4</strong></div></div><p class="practice-guidance" id="practiceGuidance">Inhale gently. Do not pull in more air than feels easy.</p><p class="practice-sub" id="practiceSub">No holds · nothing to achieve · return to natural breathing if uncomfortable</p><div class="wake-status" id="wakeStatus">SCREEN WAKE: REQUESTING IF AVAILABLE</div><p class="practice-safety">Return to natural breathing at any time. Stop if you feel dizzy, strained or uncomfortable.</p></div></div>
+  <div class="practice-bottom"><button class="button" id="pauseDose">Pause</button><button class="button acid" id="completeDose">Complete early</button></div>
+</section>
+
+<section class="modal-layer hidden" id="onboarding" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
+  <article class="onboarding-card">
+    <div class="modal-kicker">STATE PRIVATE BETA · 0.1</div>
+    <h2 id="onboardingTitle">A small tool for ordinary human states.</h2>
+    <p>STATE is an experimental wellbeing product—not medical care, diagnosis or an emergency service. Use it only when you feel able to choose freely.</p>
+    <div class="boundary-card"><b>Not for emergencies</b><span>If you may be in immediate danger, contact local emergency services or a trusted person instead of using STATE.</span></div>
+    <div class="consent-list">
+      <label><input type="checkbox" data-consent><span>I understand this is an experimental private beta.</span></label>
+      <label><input type="checkbox" data-consent><span>I am at least 18 years old.</span></label>
+      <label><input type="checkbox" data-consent><span>I understand session records stay in this browser unless I export them.</span></label>
+      <label><input type="checkbox" data-consent><span>I will stop any practice that feels strained, dizzying or uncomfortable.</span></label>
+    </div>
+    <div class="storage-check" id="storageCheck">Checking local storage…</div>
+    <div class="modal-actions"><button class="button" id="declineBeta" type="button">Not now</button><button class="button primary" id="startBeta" type="button" disabled>Enter the beta →</button></div>
+    <p class="modal-foot">No account · no cloud sync · no hidden activity tracking</p>
+  </article>
+</section>
+
+<section class="modal-layer hidden" id="recovery" role="dialog" aria-modal="true" aria-labelledby="recoveryTitle">
+  <article class="recovery-card">
+    <div class="modal-kicker">SESSION RECOVERY</div>
+    <h2 id="recoveryTitle">A dose was left unfinished.</h2>
+    <p id="recoveryCopy">Choose what feels honest. Nothing is lost by stopping.</p>
+    <div class="recovery-summary" id="recoverySummary"></div>
+    <div class="recovery-actions"><button class="button primary" id="resumeRecovery" type="button">Resume</button><button class="button" id="reflectRecovery" type="button">End gently and reflect</button><button class="text-action" id="discardRecovery" type="button">Discard this session</button></div>
+  </article>
+</section>
+
+<section class="modal-layer hidden" id="feedbackModal" role="dialog" aria-modal="true" aria-labelledby="feedbackTitle">
+  <form class="feedback-card" id="feedbackForm">
+    <button class="modal-close" id="closeFeedback" type="button" aria-label="Close feedback">×</button>
+    <div class="modal-kicker">PRIVATE BETA FEEDBACK</div>
+    <h2 id="feedbackTitle">Help us make STATE genuinely useful.</h2>
+    <p>This form creates a message on your device. Nothing is sent until you choose how to share it.</p>
+    <div class="feedback-grid">
+      <label><span>What are you reporting?</span><select id="feedbackType"><option>Experience feedback</option><option>Confusing interaction</option><option>Technical problem</option><option>Safety or discomfort</option><option>Idea</option></select></label>
+      <label><span>Was it obvious what to do?</span><select id="feedbackClarity"><option value="5">5 — completely clear</option><option value="4">4</option><option value="3" selected>3</option><option value="2">2</option><option value="1">1 — not clear</option></select></label>
+      <label><span>Would you open STATE again voluntarily?</span><select id="feedbackReturn"><option>Yes</option><option selected>Unsure</option><option>No</option></select></label>
+      <label class="wide"><span>What happened?</span><textarea id="feedbackText" required placeholder="What felt useful, confusing, uncomfortable or missing?"></textarea></label>
+      <label class="diagnostic-check wide"><input type="checkbox" id="includeDiagnostics" checked><span>Include visible build, browser and screen details in the message.</span></label>
+    </div>
+    <pre class="feedback-preview" id="feedbackPreview"></pre>
+    <div class="modal-actions"><button class="button" id="copyFeedback" type="button">Copy message</button><button class="button primary" type="submit">Share feedback →</button></div>
+    <p class="modal-foot">On mobile, Share opens your normal share sheet. You choose the recipient and app.</p>
+  </form>
+</section>
+
+<section class="modal-layer hidden" id="betaPanel" role="dialog" aria-modal="true" aria-labelledby="betaPanelTitle">
+  <article class="beta-panel-card">
+    <button class="modal-close" id="closeBetaPanel" type="button" aria-label="Close beta tools">×</button>
+    <div class="modal-kicker">TESTER TOOLS · BUILD 6.5.1</div>
+    <h2 id="betaPanelTitle">Private beta controls</h2>
+    <p>These controls are for deliberate testing. Demo and fast-test records are labelled.</p>
+    <div class="tool-grid">
+      <button class="tool-card" id="fastDose" type="button"><b>15-second dose</b><span>Test practice, pause, recovery and reflection quickly.</span></button>
+      <button class="tool-card" id="simulateFollowup" type="button"><b>Make follow-up due</b><span>Moves the newest unresolved follow-up to now.</span></button>
+      <button class="tool-card" id="seedPatterns" type="button"><b>Add demo patterns</b><span>Preview Conditions Map with clearly marked demo records.</span></button>
+      <button class="tool-card" id="copyDebug" type="button"><b>Copy debug report</b><span>Build, viewport, browser, storage and current screen.</span></button>
+      <button class="tool-card" id="resetOnboarding" type="button"><b>Reset onboarding</b><span>Show first-use consent again on reload.</span></button>
+      <button class="tool-card danger-tool" id="clearBetaData" type="button"><b>Clear all beta data</b><span>Deletes sessions, active recovery and beta preferences.</span></button>
+    </div>
+    <pre class="debug-output" id="debugOutput"></pre>
+  </article>
+</section>
+
+<section class="followup hidden" id="followup" aria-hidden="true"><form class="followup-card" id="followupForm"><div class="micro">ONE HOUR LATER · PRIVATE FOLLOW-UP</div><h2>Did this improve your actual life?</h2><p id="followupContext">Earlier you used CALM 10. Rate the next hour, not the beauty of the exercise.</p><fieldset class="question" style="border:0;padding:0"><legend>Next-hour usefulness</legend><div class="score-row"><label><input type="radio" name="hourScore" value="1"><span>1</span></label><label><input type="radio" name="hourScore" value="2"><span>2</span></label><label><input type="radio" name="hourScore" value="3" checked><span>3</span></label><label><input type="radio" name="hourScore" value="4"><span>4</span></label><label><input type="radio" name="hourScore" value="5"><span>5</span></label></div></fieldset><div class="question"><label for="followupNote">What happened? <span style="font-weight:400">(optional)</span></label><textarea class="note" id="followupNote" placeholder="A useful action, connection, rest—or no meaningful change."></textarea></div><div class="followup-actions"><button type="button" class="button" id="dismissFollowup">Not now</button><button type="submit" class="button primary">Save honest result</button></div></form></section>
+
+<section class="final hidden" id="final"><div><span class="mark" style="margin:auto;background:var(--acid);color:var(--ink)">S</span><div class="micro" style="margin-top:24px">STATE HAS ENDED</div><h2>Go use<br>the hour.</h2><p>Close this tab. STATE will learn only if you choose to answer later.</p><button class="button final-feedback" id="finalFeedback" type="button">Share beta feedback</button><button class="button" style="border-color:#f8f4ea;color:#f8f4ea;margin-top:18px" onclick="location.reload()">Return later</button></div></section>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
