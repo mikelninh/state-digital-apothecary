@@ -1,0 +1,32 @@
+name: V6.1 prototype check
+
+on:
+  pull_request:
+    paths:
+      - 'v61/**'
+      - '.github/workflows/v61-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify required files
+        run: |
+          test -f v61/index.html
+          test -f v61/threshold.css
+          test -f v61/app.js
+
+      - name: Check JavaScript syntax
+        run: node --check v61/app.js
+
+      - name: Check local asset references
+        run: |
+          grep -q 'href="threshold.css"' v61/index.html
+          grep -q 'src="app.js"' v61/index.html
