@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="STATE V6.1 — The Threshold. Arrive, create one helpful condition, and return to life." />
+  <meta name="theme-color" content="#121510" />
+  <title>STATE V6.1 — The Threshold</title>
+  <link rel="stylesheet" href="threshold.css" />
+</head>
+<body>
+  <div class="film-grain" aria-hidden="true"></div>
+  <div class="ambient-light ambient-one" aria-hidden="true"></div>
+  <div class="ambient-light ambient-two" aria-hidden="true"></div>
+
+  <header class="threshold-header">
+    <a class="wordmark" href="#arrival" aria-label="STATE home"><span>S</span><b>STATE</b></a>
+    <div class="chapter" id="chapterLabel">THE THRESHOLD / ARRIVAL</div>
+    <button class="leave-button" id="leaveButton">Leave STATE <span>↗</span></button>
+  </header>
+
+  <main>
+    <section class="arrival screen" id="arrival" data-screen="arrival">
+      <div class="arrival-copy">
+        <p class="eyebrow"><i></i> HOUSE OF STATES / V6.1</p>
+        <h1>A place to<br><em>return to yourself.</em></h1>
+        <p class="lead">Learn which conditions help you live well—then increasingly create those conditions yourself.</p>
+        <p class="constitution">HEALTHY BODY · CALM MIND · LOVING RELATIONSHIPS</p>
+      </div>
+
+      <div class="arrival-instrument" aria-labelledby="arrivalQuestion">
+        <div class="instrument-head">
+          <span>01 / ARRIVE HONESTLY</span>
+          <span>PRIVATE ON THIS DEVICE</span>
+        </div>
+        <h2 id="arrivalQuestion">How are you arriving?</h2>
+        <p>Choose the state that feels most true. Not a diagnosis. Just a useful beginning.</p>
+
+        <div class="constellation" id="stateConstellation">
+          <button class="state-star star-overwhelmed" data-state="overwhelmed"><i></i><span>Overwhelmed</span></button>
+          <button class="state-star star-scattered" data-state="scattered"><i></i><span>Scattered</span></button>
+          <button class="state-star star-tense" data-state="tense"><i></i><span>Physically tense</span></button>
+          <button class="state-star star-flat" data-state="flat"><i></i><span>Flat</span></button>
+          <button class="state-star star-avoidant" data-state="avoidant"><i></i><span>Avoiding something</span></button>
+          <button class="state-star star-lonely" data-state="lonely"><i></i><span>Lonely</span></button>
+          <svg class="constellation-lines" viewBox="0 0 700 390" aria-hidden="true"><path d="M110 84 L348 54 L584 110 M110 84 L236 300 L348 54 L450 310 L584 110 M236 300 L450 310" /></svg>
+        </div>
+      </div>
+      <div class="scroll-note">Choose one state to reveal the house</div>
+    </section>
+
+    <section class="recognition screen hidden" id="recognition" data-screen="recognition" aria-live="polite">
+      <div class="recognition-left">
+        <p class="eyebrow"><i></i> 02 / RECOGNITION</p>
+        <h2 id="recognitionTitle">You do not need to solve everything from here.</h2>
+        <p class="recognition-text" id="recognitionText">Let us create a little more space before deciding what comes next.</p>
+        <div class="recognition-actions">
+          <button class="pill primary" id="enterHouse">Enter the room</button>
+          <button class="pill ghost" id="chooseAgain">Choose another state</button>
+        </div>
+      </div>
+      <div class="recognition-art" aria-hidden="true">
+        <div class="feeling-field" id="feelingField"><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="named-state"><small>WHAT IS HERE</small><strong id="namedState">OVERWHELM</strong><p>Named, not judged.</p></div>
+      </div>
+    </section>
+
+    <section class="house-screen screen hidden" id="houseScreen" data-screen="house">
+      <div class="house-copy">
+        <p class="eyebrow"><i></i> 03 / ENTER ONE ROOM</p>
+        <h2>The house meets<br><em>this moment.</em></h2>
+        <p id="roomIntro">The Inner Room is opening. The rest of the house can wait.</p>
+        <div class="room-key">
+          <span><i class="body-key"></i> Body</span>
+          <span class="active"><i class="mind-key"></i> Mind</span>
+          <span><i class="love-key"></i> Relationships</span>
+        </div>
+      </div>
+
+      <div class="sanctuary-wrap">
+        <div class="sanctuary-halo"></div>
+        <div class="sanctuary" id="sanctuary" data-room="mind">
+          <div class="sanctuary-roof"></div>
+          <div class="sanctuary-floor"></div>
+          <div class="sanctuary-wall wall-left"></div>
+          <div class="sanctuary-wall wall-right"></div>
+          <div class="room-glow"></div>
+          <div class="window"><div class="sun"></div><span></span><span></span></div>
+          <div class="still-water"><i></i></div>
+          <div class="shared-seats"><span></span><span></span><i></i></div>
+          <button class="formula-vessel" id="formulaVessel" aria-label="Open recommended formula">
+            <span class="vessel-cap"></span>
+            <small id="vesselMeta">FORMULA 002</small>
+            <b id="vesselName">CALM</b>
+            <em id="vesselNumber">10</em>
+            <i id="vesselUnit">10 MINUTES</i>
+          </button>
+          <div class="open-door" aria-hidden="true"><span></span></div>
+        </div>
+        <p class="house-instruction">One room. One object. One finite dose.</p>
+      </div>
+    </section>
+
+    <section class="formula-screen screen hidden" id="formulaScreen" data-screen="formula">
+      <div class="formula-stage">
+        <div class="formula-object" id="formulaObject" data-formula="calm">
+          <div class="object-shadow"></div>
+          <div class="object-body">
+            <small id="objectFormula">STATE / FORMULA 002</small>
+            <b id="objectName">CALM</b>
+            <em id="objectNumber">10</em>
+            <span id="objectUnit">GUIDED EXHALE · 10 MIN</span>
+          </div>
+          <div class="object-orbit"></div>
+        </div>
+      </div>
+
+      <div class="formula-copy">
+        <p class="eyebrow"><i></i> 04 / ONE CONDITION</p>
+        <h2 id="formulaTitle">Create a little more space.</h2>
+        <p class="formula-description" id="formulaDescription">A gentle body-first practice using a comfortable longer exhale, sensory orientation and a clear return to the next kind action.</p>
+
+        <div class="formula-tabs" role="tablist" aria-label="Formula information">
+          <button class="active" data-tab="feel" role="tab">Feel</button>
+          <button data-tab="understand" role="tab">Understand</button>
+          <button data-tab="practise" role="tab">Practise</button>
+        </div>
+
+        <div class="formula-panel active" data-panel="feel">
+          <p class="panel-number">01</p>
+          <h3>What may shift</h3>
+          <ul id="feelList"><li>Breathing becomes slower and less effortful.</li><li>The moment feels less compressed.</li><li>The next choice becomes easier to see.</li></ul>
+          <p class="soft-note">No forced calm. A smaller shift still counts.</p>
+        </div>
+
+        <div class="formula-panel" data-panel="understand">
+          <p class="panel-number">02</p>
+          <h3>Science, lineage, limits</h3>
+          <div class="evidence-lanes">
+            <article><span>SCIENCE</span><b>Promising</b><p>Exhale-emphasised slow breathing may influence respiratory rate and cardiac autonomic regulation.</p><a href="https://pubmed.ncbi.nlm.nih.gov/36630953/" target="_blank" rel="noreferrer">Source example · PMID 36630953 ↗</a></article>
+            <article><span>WISDOM</span><b>Context required</b><p>Breath regulation appears across contemplative traditions. STATE names the adaptation without reducing a lineage to a nervous-system hack.</p><a href="../docs/v6-source-standard.md">Read the source standard ↗</a></article>
+            <article><span>LIMIT</span><b>Not measured</b><p>STATE did not measure your dopamine, cortisol, vagus nerve or brain activity. The diagram is a model, not a scan.</p></article>
+          </div>
+        </div>
+
+        <div class="formula-panel" data-panel="practise">
+          <p class="panel-number">03</p>
+          <h3>Take a finite preview</h3>
+          <label class="intensity-label" for="beforeIntensity">How intense is this moment?</label>
+          <div class="intensity-row"><input id="beforeIntensity" type="range" min="1" max="10" value="7"><output id="beforeValue">7</output></div>
+          <button class="pill primary large" id="beginPractice">Begin 60-second preview</button>
+          <p class="safety-note">Keep the breath comfortable and unforced. No breath holds. Stop and breathe naturally if you feel light-headed or uncomfortable.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="practice-overlay hidden" id="practiceOverlay" aria-hidden="true">
+      <header><div class="wordmark light"><span>S</span><b>STATE</b></div><div>CALM 10 / PREVIEW</div><button id="exitPractice">Exit honestly</button></header>
+      <div class="practice-room">
+        <div class="breath-visual" id="breathVisual" data-phase="inhale">
+          <div class="breath-ring ring-one"></div><div class="breath-ring ring-two"></div><div class="breath-core"></div>
+          <div class="breath-instruction"><span id="breathPhase">INHALE</span><strong id="breathCount">4</strong></div>
+        </div>
+        <p id="breathGuidance">Inhale gently. Do not pull in more air than feels easy.</p>
+        <div class="practice-time" id="practiceTime">01:00</div>
+        <div class="practice-controls"><button id="pausePractice">Pause</button><button id="finishPractice">Finish early</button></div>
+      </div>
+      <footer>FINITE BY DESIGN <span>·</span> THE PRODUCT SUCCEEDS WHEN YOU LEAVE IT</footer>
+    </section>
+
+    <section class="return-screen screen hidden" id="returnScreen" data-screen="return">
+      <div class="return-copy">
+        <p class="eyebrow light"><i></i> 05 / RETURN</p>
+        <h2>Take this state<br><em>with you.</em></h2>
+        <p>The house has done its work. The next useful place is outside STATE.</p>
+        <div class="after-card">
+          <label for="afterIntensity">How intense does the moment feel now?</label>
+          <div class="intensity-row light"><input id="afterIntensity" type="range" min="1" max="10" value="4"><output id="afterValue">4</output></div>
+          <p id="shiftMessage">A shift does not need to be dramatic to be useful.</p>
+        </div>
+        <button class="exit-to-life" id="exitToLife"><span>Open the door</span><b>Close STATE and use the next hour</b><i>↗</i></button>
+      </div>
+      <div class="return-door" aria-hidden="true"><div class="door-light"></div><div class="door-frame"><span></span></div><p>RETURN OFTEN<br>STAY BRIEFLY<br>GO LIVE</p></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
