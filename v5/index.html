@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="STATE V5 — The Human Starter Pack. Five finite digital formulas for real life." />
+  <meta name="theme-color" content="#f2eee3" />
+  <title>STATE V5 — The Human Starter Pack</title>
+  <link rel="stylesheet" href="../brand/state.css" />
+</head>
+<body>
+  <div class="grain"></div>
+  <header class="topbar">
+    <a class="brand-lockup" href="#top"><span class="brand-mark">S</span><span>STATE</span></a>
+    <nav aria-label="Primary"><a href="#dispensary">Find your state</a><a href="#formulas">Formulas</a><a href="#starter">Starter Pack</a><a href="#ledger">Impact</a></nav>
+    <span class="version-chip">V5 / Human Starter Pack</span>
+  </header>
+  <main id="top">
+    <section class="shell hero">
+      <div class="hero-copy reveal">
+        <div class="eyebrow"><span class="dot"></span> DIGITAL APOTHECARY / COLLECTION 01</div>
+        <h1 class="display">Five formulas<br>for <em>being human.</em></h1>
+        <p class="lead">Choose the state you actually need. Take one finite digital dose. Return to your life with more attention, calm, courage, connection or purpose.</p>
+        <div class="actions"><a class="button primary" href="#dispensary">Find my dose</a><button class="button" data-open-gift>Gift the Starter Pack</button></div>
+        <p class="hero-note">No feed · no streak pressure · no false urgency · one purchased pack funds one free access.</p>
+      </div>
+      <div class="hero-art reveal" id="heroArt" aria-label="STATE Human Starter Pack product constellation">
+        <div class="hero-orbit o1"></div><div class="hero-orbit o2"></div><div class="hero-orbit o3"></div>
+        <div class="mini-product calm"><b>CALM</b><span>10</span></div>
+        <div class="mini-product courage"><b>COURAGE</b><span>01</span></div>
+        <div class="product-box" id="heroPack"><div class="product-label"><small>STATE / COLLECTION 01</small><b>HUMAN</b><span class="number">05</span><div class="foot"><span>FIVE<br>FORMULAS</span><span>ONE PACK<br>€12</span></div></div></div>
+        <div class="mini-product connection"><b>CONNECT</b><span>02</span></div>
+        <div class="mini-product purpose"><b>PURPOSE</b><span>01</span></div>
+      </div>
+    </section>
+    <div class="marquee" aria-hidden="true"><div class="marquee-track"><span>THE PRODUCT SUCCEEDS WHEN YOU CLOSE IT</span><span>BUY ONE · FUND ONE</span><span>USEFUL FIRST · BEAUTIFUL ALWAYS</span><span>THE PRODUCT SUCCEEDS WHEN YOU CLOSE IT</span><span>BUY ONE · FUND ONE</span><span>USEFUL FIRST · BEAUTIFUL ALWAYS</span></div></div>
+    <section class="section shell" id="dispensary">
+      <div class="section-head reveal"><span class="section-index">01</span><div><p class="kicker">Personal dispensary</p><h2>What do you need<br>right now?</h2><p>Not the person you wish you were. The honest state beneath the noise. STATE recommends one formula, not twelve distractions.</p></div><div class="section-aside">PRIVATE BY DEFAULT<br>NO ACCOUNT REQUIRED</div></div>
+      <div class="dispensary reveal">
+        <form class="dispensary-form" id="dispensaryForm">
+          <div class="field"><label for="need">What feels most true?</label><select id="need"><option value="focus">I need to move something forward</option><option value="calm">My system feels overloaded</option><option value="courage">I am avoiding a necessary action</option><option value="connection">I feel far away from people</option><option value="purpose">I want to turn care into action</option></select></div>
+          <fieldset class="field"><legend>How much time do you have?</legend><div class="segmented"><label><input type="radio" name="time" value="10" checked><span>10 min</span></label><label><input type="radio" name="time" value="25"><span>25 min</span></label><label><input type="radio" name="time" value="30"><span>30+ min</span></label></div></fieldset>
+          <fieldset class="field"><legend>What kind of experience?</legend><div class="segmented"><label><input type="radio" name="mode" value="solo" checked><span>Alone</span></label><label><input type="radio" name="mode" value="together"><span>With someone</span></label><label><input type="radio" name="mode" value="service"><span>For someone</span></label></div></fieldset>
+          <button class="button primary" type="submit">Dispense one formula</button>
+        </form>
+        <div class="dispensary-result" aria-live="polite"><span class="result-label">Recommended dose</span><h3 class="result-name" id="resultName">FOCUS 25</h3><p class="result-description" id="resultDescription">A finite room for moving one visible task from resistance into motion.</p><span class="result-pill" id="resultPill">25 minutes · solo</span><button class="button acid" id="beginRecommended" style="width:max-content;margin-top:24px">Begin free preview</button></div>
+      </div>
+    </section>
+    <section class="section shell" id="formulas">
+      <div class="section-head reveal"><span class="section-index">02</span><div><p class="kicker">The first collection</p><h2>Each state needs<br>its own ritual.</h2><p>CALM is not FOCUS painted blue. Each formula uses a different human mechanism, pace and ending.</p></div><div class="section-aside">5 FORMULAS<br>FINITE BY DESIGN</div></div>
+      <div class="formula-grid">
+        <article class="formula-card reveal" data-state="focus"><div class="formula-visual"><div class="formula-object"><strong>FOCUS</strong><span>25</span></div></div><div class="formula-copy"><div class="formula-meta"><span>FORMULA 001</span><span>25 MIN</span></div><h3>FOCUS 25</h3><p>Move one meaningful task from resistance into visible motion.</p><button class="button small" data-dose="FOCUS 25">Try the dose</button></div></article>
+        <article class="formula-card reveal" data-state="calm"><div class="formula-visual"><div class="formula-object"><strong>CALM</strong><span>10</span></div></div><div class="formula-copy"><div class="formula-meta"><span>FORMULA 002</span><span>10 MIN</span></div><h3>CALM 10</h3><p>Settle the body before asking the mind to solve the universe.</p><button class="button small" data-dose="CALM 10">Try the dose</button></div></article>
+        <article class="formula-card reveal" data-state="courage"><div class="formula-visual"><div class="formula-object"><strong>COURAGE</strong><span>01</span></div></div><div class="formula-copy"><div class="formula-meta"><span>FORMULA 003</span><span>15 MIN</span></div><h3>COURAGE 01</h3><p>Reduce avoidance to one small, observable act of bravery.</p><button class="button small" data-dose="COURAGE 01">Try the dose</button></div></article>
+        <article class="formula-card reveal" data-state="connection"><div class="formula-visual"><div class="formula-object"><strong>CONNECT</strong><span>02</span></div></div><div class="formula-copy"><div class="formula-meta"><span>FORMULA 004</span><span>20 MIN</span></div><h3>TWO QUESTIONS</h3><p>Replace small talk with a safe ritual for being genuinely known.</p><button class="button small" data-dose="TWO QUESTIONS">Try the dose</button></div></article>
+        <article class="formula-card reveal" data-state="purpose"><div class="formula-visual"><div class="formula-object"><strong>PURPOSE</strong><span>01</span></div></div><div class="formula-copy"><div class="formula-meta"><span>FORMULA 005</span><span>30 MIN</span></div><h3>ONE GOOD DEED</h3><p>Convert vague goodwill into one useful, completed contribution.</p><button class="button small" data-dose="ONE GOOD DEED">Try the dose</button></div></article>
+      </div>
+    </section>
+    <section class="section shell" id="starter"><div class="starter reveal"><div class="starter-copy"><p class="kicker">Best first dose</p><h2>THE HUMAN<br>STARTER PACK</h2><p>Five complete formulas. Permanently yours. Giftable. No subscription required. One purchased pack finances one free access through STATE Commons.</p><div class="actions"><button class="button acid" data-buy>Get the pack · €12</button><button class="button" data-open-gift>Send as a gift</button></div><div class="price-lockup"><span class="price">€12</span><span class="price-note">5 FORMULAS<br>+ 1 FREE ACCESS FUNDED<br>NO RECURRING PAYMENT</span></div></div><div class="starter-stage"><div class="pack-stack"><div class="stack-card"><strong>FOCUS</strong><span>25</span></div><div class="stack-card"><strong>CALM</strong><span>10</span></div><div class="stack-card"><strong>COURAGE</strong><span>01</span></div><div class="stack-card"><strong>CONNECT</strong><span>02</span></div><div class="stack-card"><strong>PURPOSE</strong><span>01</span></div></div></div></div></section>
+    <section class="section shell" id="ledger"><div class="section-head reveal"><span class="section-index">03</span><div><p class="kicker">Abundance mechanism</p><h2>Buy one.<br>Fund one.</h2><p>No vague “impact” claim. Every funded access must appear in an auditable ledger from purchase to allocation to redemption.</p></div><div class="section-aside">PROTOTYPE DATA<br>REAL LEDGER = V5 GATE</div></div><div class="ledger reveal"><div class="ledger-story"><p class="kicker">Transparent by construction</p><h3>A promise should have a receipt.</h3><p>The production version separates money received, access funded, access allocated and access redeemed. Until that accounting exists, STATE must not claim a donation happened.</p><button class="button" id="simulatePurchase">Simulate one transparent purchase</button></div><div class="ledger-metrics"><div class="ledger-metric"><span>Packs purchased</span><strong id="packsPurchased">0</strong></div><div class="ledger-metric"><span>Accesses funded</span><strong id="accessFunded">0</strong></div><div class="ledger-metric"><span>Allocated</span><strong id="accessAllocated">0</strong></div><div class="ledger-metric"><span>Redeemed</span><strong id="accessRedeemed">0</strong></div></div></div></section>
+    <section class="statement"><div class="shell reveal"><blockquote>“Do not seek to be impressive. Seek to be genuinely useful — and make usefulness beautiful.”</blockquote><cite>STATE product constitution</cite></div></section>
+  </main>
+  <footer class="footer"><div class="shell footer-grid"><div class="footer-brand">STATE</div><p>Human states, consciously designed.<br>Digital drugs. No hangover.*</p><div class="footer-links"><a href="../v4/">V4</a><a href="../v6/">V6 Studio</a><a href="../v7/">V7 Commons</a></div></div></footer>
+  <div class="modal" id="giftModal" role="dialog" aria-modal="true" aria-labelledby="giftTitle"><div class="modal-card"><button class="modal-close" data-close-modal aria-label="Close">×</button><p class="kicker">Gift a useful state</p><h2 id="giftTitle">Send the Human Starter Pack.</h2><p class="lead" style="font-size:17px">A gift code would unlock all five formulas. This prototype keeps payment disabled while we validate the experience and ledger.</p><div class="field"><label for="giftName">Who is it for?</label><input type="text" id="giftName" placeholder="Their name" /></div><div class="field"><label for="giftMessage">A small message</label><textarea id="giftMessage" placeholder="May the next hour be kinder and clearer."></textarea></div><button class="button primary" id="createGift">Create prototype gift</button></div></div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
