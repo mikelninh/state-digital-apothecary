@@ -1,0 +1,27 @@
+/* CALM 10 — Guided Breathwork */
+.experience[data-formula="calm"] .experience-main.dose-room{background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.78),rgba(145,201,255,.32) 34%,rgba(242,238,227,.94) 72%);position:relative;overflow:hidden}
+.experience[data-formula="calm"] .experience-main.dose-room:before,.experience[data-formula="calm"] .experience-main.dose-room:after{content:"";position:absolute;border:1px solid rgba(16,18,14,.14);border-radius:50%;inset:50% auto auto 50%;translate:-50% -50%;pointer-events:none}
+.experience[data-formula="calm"] .experience-main.dose-room:before{width:min(70vw,760px);height:min(70vw,760px)}
+.experience[data-formula="calm"] .experience-main.dose-room:after{width:min(48vw,520px);height:min(48vw,520px)}
+.calm-room{position:relative;z-index:2;min-height:calc(100vh - 150px);display:grid;grid-template-rows:auto 1fr auto;align-items:center;justify-items:center;text-align:center;width:min(980px,100%);margin:0 auto;padding:34px 20px}
+.calm-meta{display:flex;align-items:center;gap:12px;font:10px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.calm-meta .calm-dot{width:9px;height:9px;border-radius:50%;background:var(--calm);box-shadow:0 0 0 7px rgba(145,201,255,.2)}
+.breath-stage{position:relative;width:min(68vw,470px);aspect-ratio:1;display:grid;place-items:center;margin:20px auto}
+.breath-orbit,.breath-orbit:before,.breath-orbit:after{position:absolute;inset:0;border:1px solid rgba(16,18,14,.18);border-radius:50%;content:""}
+.breath-orbit{animation:calmOrbit 28s linear infinite}.breath-orbit:before{inset:13%}.breath-orbit:after{inset:28%}
+.breath-orb{width:48%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:rgba(145,201,255,.88);border:1px solid var(--ink);box-shadow:0 28px 90px rgba(72,139,195,.25),inset 0 0 55px rgba(255,255,255,.68);transform:scale(.72);transition:transform 4s cubic-bezier(.4,0,.2,1),background 1s ease;will-change:transform}
+.breath-stage[data-phase="inhale"] .breath-orb{transform:scale(1)}
+.breath-stage[data-phase="exhale"] .breath-orb{transform:scale(.72);transition-duration:6s;background:rgba(188,222,252,.92)}
+.breath-stage[data-phase="natural"] .breath-orb{transform:scale(.82);transition-duration:2s}
+.breath-copy{position:absolute;z-index:3;display:grid;gap:5px;place-items:center}
+.breath-phase{font:800 clamp(19px,3vw,34px)/1 var(--sans);letter-spacing:-.04em}
+.breath-count{font:clamp(52px,8vw,92px)/.9 var(--serif)}
+.calm-guidance{font:clamp(27px,4vw,48px)/1.05 var(--serif);letter-spacing:-.035em;max-width:770px;margin:0}
+.calm-context{color:var(--muted);margin:12px 0 0;font-size:14px}
+.calm-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-top:22px}
+.calm-options{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px;font:10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.calm-options label{display:flex;align-items:center;gap:7px;cursor:pointer}.calm-options input{accent-color:var(--ink)}
+.calm-safety{font:10px/1.5 var(--mono);color:var(--muted);max-width:660px;margin:18px auto 0}
+@keyframes calmOrbit{to{transform:rotate(360deg)}}
+@media(max-width:680px){.calm-room{min-height:calc(100vh - 130px);padding:24px 14px}.breath-stage{width:min(86vw,420px)}.calm-guidance{font-size:30px}.calm-options{flex-direction:column;gap:8px}.breath-orbit{animation-duration:40s}}
+@media(prefers-reduced-motion:reduce){.breath-orbit{animation:none}.breath-orb{transition:none!important}.breath-stage[data-phase="inhale"] .breath-orb{transform:scale(.9)}.breath-stage[data-phase="exhale"] .breath-orb{transform:scale(.75)}}
