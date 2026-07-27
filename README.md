@@ -9,7 +9,7 @@ STATE is an experimental digital concept store for finite, intentional experienc
 
 ## Current prototype
 
-The repository contains **STATE MVP v3 — Evidence Lab**, centred on the first working formula: **FOCUS 25**.
+This repository contains **STATE MVP v3 — Evidence Lab**, centred on the first working formula: **FOCUS 25**.
 
 - Before → during → after experience
 - Real 25-minute mode and 60-second preview
@@ -17,13 +17,11 @@ The repository contains **STATE MVP v3 — Evidence Lab**, centred on the first 
 - JSON result export/import for small beta tests
 - Honest evidence dashboard starting at zero
 - Transparent impact ledger
-- Standalone HTML with no backend or external assets
+- Static browser app with no backend or external assets
 
 ## Run locally
 
-Open `index.html` in a modern browser.
-
-For a local server:
+Open `index.html` in a modern browser, or start a local server:
 
 ```bash
 python -m http.server 8000
@@ -44,7 +42,10 @@ Then open `http://localhost:8000`.
 
 ```text
 .
-├── index.html                  # Complete standalone MVP
+├── index.html                  # Deployable app entrypoint
+├── app/parts/                  # Deterministic browser bundle
+│   ├── part-00.js
+│   └── … part-06.js
 ├── docs/
 │   ├── ethics.md               # Ethical product constitution
 │   ├── evidence-protocol.md    # Initial beta testing protocol
@@ -52,6 +53,8 @@ Then open `http://localhost:8000`.
 └── .github/workflows/
     └── pages.yml               # Static GitHub Pages deployment
 ```
+
+The entrypoint assembles the application bundle in order before launching the complete Evidence Lab.
 
 ## Immediate roadmap
 
