@@ -1,0 +1,36 @@
+name: V6.2 prototype check
+
+on:
+  push:
+    branches: ["v6.2/art-direction-trials"]
+  pull_request:
+    paths:
+      - "v62/**"
+      - "docs/v62-art-direction-trials.md"
+      - ".github/workflows/v62-prototype-check.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm prototype files
+        run: |
+          test -f v62/index.html
+          test -f docs/v62-art-direction-trials.md
+      - name: Validate signature structure
+        run: |
+          grep -q "The Living Apothecary" v62/index.html
+          grep -q "The Inner Observatory" v62/index.html
+          grep -q "The House That Breathes" v62/index.html
+          grep -q "Take the state" v62/index.html
+      - name: Check embedded JavaScript syntax
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          html = Path('v62/index.html').read_text(encoding='utf-8')
+          start = html.index('<script>') + len('<script>')
+          end = html.index('</script>', start)
+          Path('/tmp/state-v62.js').write_text(html[start:end], encoding='utf-8')
+          PY
+          node --check /tmp/state-v62.js
