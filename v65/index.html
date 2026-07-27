@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="STATE V6.5 Trusted Daily Use — one finite condition, transparent incentives, honest delayed evidence." />
+  <meta name="theme-color" content="#f3ede1" />
+  <title>STATE V6.5 — Trusted Daily Use</title>
+  <style>
+    :root{
+      --paper:#f4eee2;--paper2:#fbf8f1;--ink:#171814;--muted:#68695f;--line:rgba(23,24,20,.18);
+      --acid:#dfff57;--accent:#9bcaff;--accent2:#d8eaff;--shadow:0 28px 90px rgba(28,27,21,.14);
+      --serif:Iowan Old Style,Baskerville,Georgia,serif;--mono:"SFMono-Regular",Consolas,monospace;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh;overflow-x:hidden}
+    button,input,textarea{font:inherit;color:inherit}
+    button{cursor:pointer}
+    a{color:inherit}
+    .grain{position:fixed;inset:0;z-index:200;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .ambient{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+    .ambient:before,.ambient:after{content:"";position:absolute;border-radius:50%;filter:blur(70px);opacity:.46;transition:background .5s ease}
+    .ambient:before{width:48vw;height:48vw;background:var(--accent2);right:-12vw;top:-16vw}
+    .ambient:after{width:34vw;height:34vw;background:rgba(223,255,87,.18);left:-10vw;bottom:-18vw}
+    .shell{width:min(1180px,calc(100% - 40px));margin:auto;position:relative;z-index:1}
+    .topbar{height:70px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-bottom:1px solid var(--line);position:relative;z-index:20}.top-actions{justify-self:end;display:flex;align-items:center;gap:9px}.trust-button{border:0;background:transparent;padding:9px 11px;font:10px var(--mono);letter-spacing:.05em;text-decoration:underline;text-underline-offset:4px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.04em}
+    .mark{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper2);font:11px var(--mono)}
+    .chapter{font:10px var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+    .mode-toggle{display:flex;border:1px solid var(--ink);border-radius:999px;padding:3px;background:rgba(251,248,241,.6)}
+    .mode-toggle button{border:0;background:transparent;border-radius:999px;padding:8px 12px;font-size:11px;font-weight:850}
+    .mode-toggle button.active{background:var(--ink);color:var(--paper2)}
+    .screen{min-height:calc(100vh - 70px);display:grid;align-items:center;padding:46px 0 70px}
+    .screen.hidden{display:none}
+    .arrival-grid{display:grid;grid-template-columns:.86fr 1.14fr;gap:70px;align-items:center}
+    .eyebrow,.micro{font:10px/1.45 var(--mono);letter-spacing:.13em;text-transform:uppercase}
+    .eyebrow{display:flex;align-items:center;gap:9px}
+    .eyebrow:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 0 5px rgba(223,255,87,.24)}
+    h1{font-size:clamp(70px,10vw,132px);line-height:.82;letter-spacing:-.09em;margin:24px 0}
+    h1 em{font-family:var(--serif);font-weight:400}
+    .lead{font-size:clamp(19px,2vw,25px);line-height:1.5;color:var(--muted);letter-spacing:-.025em;max-width:650px}
+    .selector{border:1px solid var(--ink);background:rgba(251,248,241,.78);box-shadow:22px 26px 0 var(--ink);padding:26px}
+    .selector-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:18px}
+    .selector-head h2{font-size:34px;letter-spacing:-.06em;margin:0}
+    .selector-head span{font:9px var(--mono);color:var(--muted);text-align:right}
+    .state-list{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .state-card{border:1px solid var(--line);background:var(--paper2);padding:17px;text-align:left;min-height:108px;display:flex;flex-direction:column;justify-content:space-between;transition:.18s;position:relative}
+    .state-card:hover{transform:translateY(-2px);border-color:var(--ink)}
+    .state-card:focus-visible{outline:3px solid var(--acid);outline-offset:3px}
+    .state-card.selected{background:var(--accent);border-color:var(--ink);box-shadow:6px 7px 0 var(--ink)}
+    .state-card.selected:after{content:"✓";position:absolute;right:13px;top:11px;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--paper2);display:grid;place-items:center;font-size:11px}
+    .state-card strong{font-size:18px;letter-spacing:-.04em}
+    .state-card span{font-size:12px;color:var(--muted);line-height:1.35;max-width:190px}
+    .other-input{display:none;margin-top:10px}
+    .other-input.show{display:block}
+    .other-input textarea{width:100%;min-height:84px;border:1px solid var(--ink);background:var(--paper2);padding:13px;resize:vertical}
+    .selector-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:18px}
+    .hint{font:10px var(--mono);color:var(--muted)}
+    .button{border:1px solid var(--ink);border-radius:999px;background:transparent;padding:13px 18px;font-weight:850;transition:.18s}
+    .button:hover:not(:disabled){transform:translateY(-2px)}
+    .button.primary{background:var(--ink);color:var(--paper2)}
+    .button.acid{background:var(--acid)}
+    .button:disabled{opacity:.35;cursor:not-allowed}
+    .recognition-grid,.recommend-grid,.return-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+    .recognition-copy h2,.recommend-copy h2,.return-copy h2{font-size:clamp(56px,7vw,94px);line-height:.9;letter-spacing:-.08em;margin:22px 0}
+    .recognition-copy p,.recommend-copy p,.return-copy p{font-size:19px;line-height:1.6;color:var(--muted)}
+    .room-scene{height:600px;border:1px solid var(--ink);position:relative;overflow:hidden;background:linear-gradient(160deg,var(--accent2),var(--paper2) 72%);box-shadow:var(--shadow)}
+    .window{position:absolute;left:8%;top:9%;width:46%;height:44%;border:2px solid var(--ink);background:linear-gradient(145deg,#dbeeff,#f7efcc)}
+    .window:before,.window:after{content:"";position:absolute;background:var(--ink)}
+    .window:before{width:2px;height:100%;left:50%}.window:after{height:2px;width:100%;top:50%}
+    .light{position:absolute;left:25%;top:31%;width:75%;height:55%;background:linear-gradient(130deg,rgba(255,244,195,.6),transparent 65%);clip-path:polygon(0 0,100% 33%,88% 100%,12% 82%)}
+    .bench{position:absolute;left:12%;right:12%;bottom:15%;height:16%;background:#bc835f;border:2px solid var(--ink);box-shadow:12px 14px 0 var(--ink)}
+    .vessel{position:absolute;right:16%;bottom:24%;width:168px;height:248px;border:2px solid var(--ink);border-radius:84px 84px 28px 28px;background:linear-gradient(150deg,var(--paper2),var(--accent));box-shadow:14px 17px 0 var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px;transform:rotate(2deg)}
+    .vessel:before{content:"";position:absolute;top:-26px;width:70px;height:36px;border:2px solid var(--ink);background:var(--paper2)}
+    .vessel small{font:9px var(--mono)}.vessel b{font-size:38px;letter-spacing:-.07em;margin:14px 0 0}.vessel strong{font:82px/.8 var(--serif);font-weight:400}.vessel span{font:9px var(--mono)}
+    .recommend-card{border:1px solid var(--ink);background:var(--paper2);padding:28px;box-shadow:18px 21px 0 var(--ink)}
+    .formula-lockup{display:grid;grid-template-columns:1fr auto;align-items:end;border-bottom:1px solid var(--line);padding-bottom:22px}
+    .formula-lockup strong{font-size:56px;line-height:.85;letter-spacing:-.075em}
+    .formula-lockup .number{font:96px/.75 var(--serif)}
+    .formula-unit{margin:18px 0;font:10px var(--mono);letter-spacing:.1em}
+    .dose-options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:24px}
+    .dose-option{border:1px solid var(--ink);background:transparent;padding:17px;text-align:left}
+    .dose-option.active{background:var(--acid);box-shadow:5px 6px 0 var(--ink)}
+    .dose-option strong{display:block}.dose-option span{font-size:12px;color:var(--muted)}
+    .science-drawer{margin-top:14px;border-top:1px solid var(--line)}
+    .science-drawer summary{list-style:none;padding:16px 0;font-weight:850;cursor:pointer}
+    .science-drawer summary::-webkit-details-marker{display:none}
+    .science-content{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-bottom:8px}
+    .science-block{border:1px solid var(--line);padding:15px;background:rgba(155,202,255,.14)}
+    .science-block b{display:block;margin-bottom:8px}.science-block p,.science-block a{font-size:12px;line-height:1.55;color:var(--muted)}
+    .before-box{margin:20px 0 0;border-top:1px solid var(--line);padding-top:18px}
+    .range-row{display:grid;grid-template-columns:1fr 44px;align-items:center;gap:12px}
+    input[type="range"]{width:100%;accent-color:var(--ink)}
+    output{width:42px;height:42px;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-weight:900}
+    .practice{position:fixed;inset:0;z-index:500;background:#10130f;color:#f8f4ea;display:grid;grid-template-rows:auto 1fr auto;padding:24px 28px;overflow:hidden}
+    .practice.hidden{display:none}
+    .practice-top,.practice-bottom{display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .practice-brand{display:flex;align-items:center;gap:9px;font-weight:900}
+    .practice-brand i{width:30px;height:30px;border-radius:50%;background:var(--acid);color:#10130f;display:grid;place-items:center;font:10px var(--mono);font-style:normal}
+    .practice-time{font:13px var(--mono);letter-spacing:.12em}
+    .practice-exit{border:0;background:transparent;color:rgba(248,244,234,.7);font-size:12px}
+    .practice-main{display:grid;place-items:center;text-align:center;min-height:0}
+    .practice-core{display:flex;flex-direction:column;align-items:center}
+    .orb-wrap{width:min(55vh,420px);height:min(55vh,420px);display:grid;place-items:center;position:relative}
+    .orb-ring{position:absolute;inset:0;border:1px solid rgba(248,244,234,.25);border-radius:50%}
+    .orb-ring:before,.orb-ring:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(248,244,234,.15)}
+    .orb-ring:before{inset:13%}.orb-ring:after{inset:28%}
+    .orb{width:48%;height:48%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#eef8ff,var(--accent));box-shadow:0 0 80px rgba(155,202,255,.35);transition:transform 1s linear,background .5s}
+    .practice[data-phase="inhale"] .orb{transform:scale(1.42)}
+    .practice[data-phase="exhale"] .orb{transform:scale(.82)}
+    .phase{position:absolute;display:grid;gap:5px}
+    .phase span{font:10px var(--mono);letter-spacing:.16em}.phase strong{font:74px/.8 var(--serif);font-weight:400}
+    .practice-guidance{font:clamp(24px,3vw,42px)/1.15 var(--serif);max-width:800px;margin:22px 0 0}
+    .practice-sub{font-size:13px;color:rgba(248,244,234,.55);margin-top:12px}
+    .practice-bottom{justify-content:center}
+    .practice .button{border-color:#f8f4ea;color:#f8f4ea}
+    .practice .button.acid{border-color:#10130f;color:#10130f}
+    .return-card{border:1px solid var(--ink);background:var(--paper2);padding:28px;box-shadow:18px 21px 0 var(--ink)}
+    .question{margin-bottom:22px}
+    .question label,.question legend{display:block;font-weight:850;margin-bottom:10px}
+    .score-row{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+    .score-row input{position:absolute;opacity:0}
+    .score-row span{height:46px;border:1px solid var(--line);display:grid;place-items:center}
+    .score-row input:checked+span{background:var(--acid);border-color:var(--ink)}
+    textarea.note{width:100%;min-height:90px;border:1px solid var(--ink);background:var(--paper);padding:13px;resize:vertical}
+    .door-stage{height:560px;position:relative;background:linear-gradient(160deg,var(--accent2),var(--paper2));border:1px solid var(--ink);overflow:hidden}
+    .open-door{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:210px;height:380px;border:3px solid var(--ink);border-bottom:0;border-radius:105px 105px 0 0;background:#12140f;box-shadow:0 0 0 16px rgba(255,255,255,.28),0 0 100px rgba(223,255,87,.35)}
+    .open-door:after{content:"";position:absolute;inset:28px;background:linear-gradient(180deg,#dfff57,#fff5bc 58%,#f5b779)}
+    .door-floor{position:absolute;left:0;right:0;bottom:0;height:23%;background:#c7916d;border-top:2px solid var(--ink)}
+    .final{position:fixed;inset:0;z-index:800;background:#11140f;color:#f8f4ea;display:grid;place-items:center;text-align:center;padding:30px}
+    .final.hidden{display:none}
+    .final h2{font:clamp(60px,10vw,120px)/.88 var(--serif);letter-spacing:-.06em;margin:24px 0}
+    .final p{color:rgba(248,244,234,.65);font-size:18px;line-height:1.6}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:var(--ink);color:var(--paper2);padding:12px 16px;border-radius:999px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:1000}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:900px){
+      .topbar{grid-template-columns:1fr auto}.chapter{display:none}
+      .arrival-grid,.recognition-grid,.recommend-grid,.return-grid{grid-template-columns:1fr;gap:34px}
+      .screen{align-items:start;padding-top:35px}.room-scene,.door-stage{height:470px}
+      .state-list{grid-template-columns:1fr}.selector{box-shadow:10px 12px 0 var(--ink)}
+      h1{font-size:clamp(64px,18vw,100px)}.mode-toggle button{padding:8px}
+      .science-content,.dose-options{grid-template-columns:1fr}
+    }
+    @media(max-width:560px){
+      .shell{width:min(100% - 24px,1180px)}.topbar{height:62px}
+      .mode-toggle button{font-size:9px}.screen{min-height:calc(100vh - 62px)}
+      .selector{padding:18px}.selector-head{display:block}.selector-head span{display:block;text-align:left;margin-top:8px}
+      .recognition-copy h2,.recommend-copy h2,.return-copy h2{font-size:56px}
+      .room-scene{height:390px}.vessel{width:130px;height:205px;right:10%}.vessel strong{font-size:64px}
+      .practice{padding:18px 14px}.practice-top{align-items:flex-start}.practice-bottom{flex-wrap:wrap}
+      .orb-wrap{width:86vw;height:86vw}.practice-guidance{font-size:26px}
+    }
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}.orb{transition:none}}
+
+    .evidence-card{margin-top:26px;border:1px solid var(--ink);background:rgba(251,248,241,.7);padding:18px;max-width:650px;box-shadow:8px 9px 0 rgba(23,24,20,.95)}
+    .evidence-head{display:flex;align-items:center;justify-content:space-between;gap:15px}.evidence-head b{font-size:15px}.evidence-head span{font:9px var(--mono);color:var(--muted)}
+    .week-dots{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin:15px 0 13px}.week-day{min-height:48px;border:1px solid var(--line);display:grid;place-items:center;text-align:center;background:var(--paper2);font:9px/1.25 var(--mono);position:relative}.week-day.used{background:var(--accent);border-color:var(--ink)}.week-day.today{box-shadow:inset 0 0 0 2px var(--acid)}
+    .evidence-metrics{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}.evidence-metric{padding:13px 8px 0;border-right:1px solid var(--line)}.evidence-metric:last-child{border-right:0}.evidence-metric strong{display:block;font-size:22px;letter-spacing:-.05em}.evidence-metric span{font:8px var(--mono);color:var(--muted);text-transform:uppercase}
+    .evidence-note{font:10px/1.5 var(--mono);color:var(--muted);margin:13px 0 0}
+    .followup-card{margin-top:18px;border:1px solid var(--ink);background:var(--ink);color:var(--paper2);padding:18px;max-width:650px;box-shadow:8px 9px 0 var(--acid)}.followup-card.hidden{display:none}.followup-card h3{font:32px/1 var(--serif);font-weight:400;margin:11px 0}.followup-card p{color:rgba(251,248,241,.66);line-height:1.5;margin:8px 0}.hour-score{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:15px 0}.hour-score button{border:1px solid rgba(251,248,241,.36);background:transparent;color:var(--paper2);min-height:44px}.hour-score button.selected{background:var(--acid);color:var(--ink);border-color:var(--acid)}.followup-card textarea{width:100%;min-height:64px;background:rgba(255,255,255,.06);border:1px solid rgba(251,248,241,.36);color:var(--paper2);padding:11px;resize:vertical}.followup-card .button{border-color:var(--paper2);color:var(--paper2);margin-top:10px}.followup-card .button:disabled{opacity:.3}.followup-wait{font:10px var(--mono);color:var(--acid);margin-top:12px}
+    .trust-overlay{position:fixed;inset:0;z-index:1200;background:rgba(17,20,15,.82);backdrop-filter:blur(15px);display:grid;place-items:center;padding:22px}.trust-overlay.hidden{display:none}.trust-sheet{width:min(980px,100%);max-height:min(860px,92vh);overflow:auto;background:var(--paper2);border:1px solid var(--ink);box-shadow:22px 26px 0 var(--ink);padding:30px;position:relative}.trust-close{position:sticky;float:right;top:0;width:42px;height:42px;border:1px solid var(--ink);border-radius:50%;background:var(--paper2);z-index:2}.trust-hero{padding:18px 0 30px;border-bottom:1px solid var(--line)}.trust-hero h2{font-size:clamp(50px,7vw,88px);line-height:.86;letter-spacing:-.075em;margin:15px 0}.trust-hero p{font-size:19px;line-height:1.55;color:var(--muted);max-width:760px}.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:22px 0}.trust-principle{border:1px solid var(--ink);padding:17px;min-height:165px}.trust-principle:nth-child(1),.trust-principle:nth-child(4){background:var(--accent2)}.trust-principle:nth-child(2),.trust-principle:nth-child(5){background:#eef4c7}.trust-principle:nth-child(3),.trust-principle:nth-child(6){background:#f5d6ca}.trust-principle span{font:9px var(--mono)}.trust-principle b{display:block;font-size:22px;letter-spacing:-.05em;margin:16px 0 8px}.trust-principle p{font-size:13px;line-height:1.5;margin:0;color:var(--muted)}.data-contract{border:1px solid var(--ink);display:grid;grid-template-columns:1fr 1fr;margin-top:18px}.data-contract>div{padding:20px}.data-contract>div:first-child{border-right:1px solid var(--ink);background:#dff0df}.data-contract>div:last-child{background:#f3d0c7}.data-contract h3{font-size:25px;letter-spacing:-.05em;margin:0 0 13px}.data-contract ul{padding-left:18px;line-height:1.65;color:var(--muted)}
+    .trust-footer{display:flex;justify-content:space-between;gap:18px;align-items:center;border-top:1px solid var(--line);padding-top:20px;margin-top:22px}.trust-footer p{font:10px/1.5 var(--mono);color:var(--muted);max-width:620px}
+    .immediate-label{font-size:12px;color:var(--muted);margin-top:6px}
+    @media(max-width:900px){.top-actions{gap:2px}.trust-button{display:none}.evidence-metrics{grid-template-columns:1fr 1fr}.evidence-metric:nth-child(2){border-right:0}.evidence-metric:nth-child(-n+2){padding-bottom:10px;border-bottom:1px solid var(--line)}.trust-grid{grid-template-columns:1fr 1fr}.data-contract{grid-template-columns:1fr}.data-contract>div:first-child{border-right:0;border-bottom:1px solid var(--ink)}}
+    @media(max-width:560px){.evidence-card,.followup-card{box-shadow:5px 6px 0 var(--ink)}.week-day{min-height:40px}.trust-sheet{padding:18px;box-shadow:10px 12px 0 var(--ink)}.trust-grid{grid-template-columns:1fr}.trust-footer{display:block}.topbar{grid-template-columns:1fr auto}.top-actions{grid-column:2}.mode-toggle button{padding:8px 7px}}
+
+  </style>
+</head>
+<body>
+<div class="grain"></div><div class="ambient"></div>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand"><span class="mark">S</span><span>STATE</span></div>
+    <div class="chapter" id="chapter">TRUSTED DAILY USE / ARRIVE</div>
+    <div class="top-actions">
+      <button class="trust-button" type="button" id="openTrust">Why trust STATE?</button>
+      <div class="mode-toggle" aria-label="Experience mode">
+        <button type="button" class="active" data-mode="ritual">Ritual</button>
+        <button type="button" data-mode="quick">Quick</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="screen" id="arrival">
+      <div class="arrival-grid">
+        <div>
+          <div class="eyebrow">PRIVATE · FINITE · NO FEED</div>
+          <h1>How are you<br><em>arriving?</em></h1>
+          <p class="lead">Choose the state that feels closest. STATE will offer one finite condition—not a diagnosis and not an endless menu.</p>
+          <section class="evidence-card" aria-label="Private seven-day evidence">
+            <div class="evidence-head"><b>Your 7-day conditions lab</b><span>LOCAL ONLY · NOT A STREAK</span></div>
+            <div class="week-dots" id="weekDots"></div>
+            <div class="evidence-metrics">
+              <div class="evidence-metric"><strong id="metricDays">0</strong><span>days used</span></div>
+              <div class="evidence-metric"><strong id="metricSessions">0</strong><span>finite doses</span></div>
+              <div class="evidence-metric"><strong id="metricShift">—</strong><span>avg immediate shift</span></div>
+              <div class="evidence-metric"><strong id="metricHour">—</strong><span>avg next-hour score</span></div>
+            </div>
+            <p class="evidence-note" id="evidenceInsight">Use STATE only when it is genuinely useful. Missing a day is information, not failure.</p>
+          </section>
+          <section class="followup-card hidden" id="followupCard" aria-live="polite">
+            <div class="micro" style="color:var(--acid)">DELAYED EVIDENCE · THE HONEST PART</div>
+            <h3>How was the hour after <span id="followupFormula">your dose</span>?</h3>
+            <p id="followupContext">Do not rate the promise. Rate the hour you actually lived.</p>
+            <div class="hour-score" id="hourScore" aria-label="Next-hour usefulness score">
+              <button type="button" data-hour-score="1">1</button><button type="button" data-hour-score="2">2</button><button type="button" data-hour-score="3">3</button><button type="button" data-hour-score="4">4</button><button type="button" data-hour-score="5">5</button>
+            </div>
+            <textarea id="hourNote" placeholder="What happened in the real hour? (optional)"></textarea>
+            <button class="button" type="button" id="saveHourReview" disabled>Save next-hour review</button>
+            <div class="followup-wait" id="followupWait"></div>
+          </section>
+        </div>
+        <div class="selector">
+          <div class="selector-head"><h2>What feels most true?</h2><span>CHOOSE ONE<br>YOU CAN CHANGE IT</span></div>
+          <div class="state-list" id="stateList">
+            <button class="state-card" data-state="overwhelmed"><strong>Overwhelmed</strong><span>Everything feels like too much.</span></button>
+            <button class="state-card" data-state="scattered"><strong>Scattered</strong><span>My attention is everywhere.</span></button>
+            <button class="state-card" data-state="tense"><strong>Tense</strong><span>My body will not let go.</span></button>
+            <button class="state-card" data-state="flat"><strong>Flat</strong><span>I feel low or without energy.</span></button>
+            <button class="state-card" data-state="avoidant"><strong>Avoiding</strong><span>I know what I need to begin.</span></button>
+            <button class="state-card" data-state="lonely"><strong>Lonely</strong><span>I want safe human connection.</span></button>
+            <button class="state-card" data-state="other"><strong>Something else</strong><span>None of these words quite fit.</span></button>
+          </div>
+          <div class="other-input" id="otherInput"><textarea id="otherText" placeholder="A few private words about what is here…"></textarea></div>
+          <div class="selector-actions">
+            <span class="hint" id="selectionHint">Nothing selected yet.</span>
+            <button class="button primary" id="continueButton" disabled>Continue →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen hidden" id="recognition">
+      <div class="recognition-grid">
+        <div class="recognition-copy">
+          <div class="eyebrow">RECOGNITION BEFORE ADVICE</div>
+          <h2 id="recognitionTitle">You do not need to solve everything from here.</h2>
+          <p id="recognitionText">Let us create a little more space before deciding what comes next.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:28px">
+            <button class="button" id="backToStates">← Choose again</button>
+            <button class="button primary" id="seeCondition">See one condition →</button>
+          </div>
+        </div>
+        <div class="room-scene" aria-hidden="true">
+          <div class="window"></div><div class="light"></div><div class="bench"></div>
+          <div class="vessel"><small>STATE / DAILY DOSE</small><b id="sceneName">CALM</b><strong id="sceneNumber">10</strong><span id="sceneUnit">GUIDED EXHALE</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen hidden" id="recommendation">
+      <div class="recommend-grid">
+        <div class="recommend-copy">
+          <div class="eyebrow">ONE RECOMMENDED CONDITION</div>
+          <h2 id="recommendTitle">Create a little more space.</h2>
+          <p id="recommendDescription">A gentle body-first practice using a comfortable longer exhale, sensory orientation and a clear return.</p>
+          <button class="button" id="backRecognition">← Back</button>
+        </div>
+        <div class="recommend-card">
+          <div class="formula-lockup"><strong id="formulaName">CALM</strong><span class="number" id="formulaNumber">10</span></div>
+          <div class="formula-unit" id="formulaUnit">GUIDED EXHALE · 10 MINUTES</div>
+          <div class="dose-options" id="doseOptions">
+            <button class="dose-option active" data-seconds="60"><strong>Quick dose</strong><span>60 seconds</span></button>
+            <button class="dose-option" data-seconds="600"><strong>Full dose</strong><span id="fullDoseLabel">10 minutes</span></button>
+          </div>
+          <div class="before-box">
+            <label for="beforeIntensity"><strong>How intense is this state now?</strong></label>
+            <div class="range-row"><input id="beforeIntensity" type="range" min="1" max="10" value="7"><output id="beforeValue">7</output></div>
+          </div>
+          <details class="science-drawer">
+            <summary>Understand why + sources ↓</summary>
+            <div class="science-content">
+              <div class="science-block"><b>Likely mechanism</b><p id="scienceClaim">A comfortable longer exhale may influence breathing pace and cardiac autonomic regulation. Individual comfort matters.</p><a id="scienceSource" href="https://pubmed.ncbi.nlm.nih.gov/36630953/" target="_blank" rel="noreferrer">Source example ↗</a></div>
+              <div class="science-block"><b>Not measured</b><p>STATE did not measure hormones, neurotransmitters or brain activation. Your rating is personal evidence, not a medical result.</p></div>
+            </div>
+          </details>
+          <button class="button acid" id="beginDose" style="width:100%;margin-top:20px">Begin 60-second dose →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen hidden" id="return">
+      <div class="return-grid">
+        <div class="return-copy">
+          <div class="eyebrow">RETURN TO REAL LIFE</div>
+          <h2>What<br><em>changed?</em></h2>
+          <p>No forced positivity. A useful system learns from the sessions that did not help, too.</p>
+        </div>
+        <form class="return-card" id="reflectionForm">
+          <div class="question"><label for="afterIntensity">How intense is the state now?</label><div class="range-row"><input id="afterIntensity" type="range" min="1" max="10" value="5"><output id="afterValue">5</output></div></div>
+          <fieldset class="question" style="border:0;padding:0"><legend>How useful does this dose feel right now?</legend><p class="immediate-label">The next-hour result is asked later, when you can answer honestly.</p><div class="score-row">
+            <label><input type="radio" name="immediateScore" value="1"><span>1</span></label><label><input type="radio" name="immediateScore" value="2"><span>2</span></label>
+            <label><input type="radio" name="immediateScore" value="3" checked><span>3</span></label><label><input type="radio" name="immediateScore" value="4"><span>4</span></label>
+            <label><input type="radio" name="immediateScore" value="5"><span>5</span></label>
+          </div></fieldset>
+          <fieldset class="question" style="border:0;padding:0"><legend>Would you have opened STATE today without testing the prototype?</legend><div class="score-row" style="grid-template-columns:repeat(3,1fr)">
+            <label><input type="radio" name="genuineUse" value="yes"><span>Yes</span></label>
+            <label><input type="radio" name="genuineUse" value="unsure" checked><span>Unsure</span></label>
+            <label><input type="radio" name="genuineUse" value="no"><span>No</span></label>
+          </div></fieldset>
+          <div class="question"><label for="note">What helped or got in the way? <span style="font-weight:400">(optional)</span></label><textarea class="note" id="note" placeholder="Stored only in this browser."></textarea></div>
+          <button class="button primary" type="submit" style="width:100%">Save honest result →</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="screen hidden" id="door">
+      <div class="return-grid">
+        <div class="return-copy">
+          <div class="eyebrow">THE OPEN DOOR</div>
+          <h2>Take the state<br><em>with you.</em></h2>
+          <p id="exitCopy">Choose the next kind action, not the fastest reaction. STATE has nothing else to sell you right now.</p>
+          <button class="button acid" id="leaveState">Leave STATE →</button>
+        </div>
+        <div class="door-stage" aria-hidden="true"><div class="door-floor"></div><div class="open-door"></div></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<section class="practice hidden" id="practice" aria-hidden="true" data-phase="inhale">
+  <div class="practice-top">
+    <div class="practice-brand"><i>S</i><span id="practiceFormula">CALM 10</span></div>
+    <div class="practice-time" id="practiceTime">01:00</div>
+    <button class="practice-exit" id="exitPractice">End gently</button>
+  </div>
+  <div class="practice-main">
+    <div class="practice-core">
+      <div class="orb-wrap">
+        <div class="orb-ring"></div><div class="orb"></div>
+        <div class="phase"><span id="phaseLabel">INHALE</span><strong id="phaseCount">4</strong></div>
+      </div>
+      <p class="practice-guidance" id="practiceGuidance">Inhale gently. Do not pull in more air than feels easy.</p>
+      <p class="practice-sub" id="practiceSub">No holds · nothing to achieve · return to natural breathing if uncomfortable</p>
+    </div>
+  </div>
+  <div class="practice-bottom">
+    <button class="button" id="pauseDose">Pause</button>
+    <button class="button acid" id="completeDose">Complete early</button>
+  </div>
+</section>
+
+<section class="final hidden" id="final">
+  <div>
+    <span class="mark" style="margin:auto;background:var(--acid);color:var(--ink)">S</span>
+    <div class="micro" style="margin-top:25px">STATE HAS ENDED</div>
+    <h2>Go use<br>the hour.</h2>
+    <p>Close this tab. The next useful place is outside STATE.</p>
+    <button class="button" style="border-color:#f8f4ea;color:#f8f4ea;margin-top:18px" onclick="location.reload()">Return later</button>
+  </div>
+</section>
+
+<section class="trust-overlay hidden" id="trustOverlay" aria-hidden="true">
+  <article class="trust-sheet" role="dialog" aria-modal="true" aria-labelledby="trustTitle">
+    <button class="trust-close" type="button" id="closeTrust" aria-label="Close trust charter">×</button>
+    <header class="trust-hero">
+      <div class="eyebrow">INCENTIVE ALIGNMENT CHARTER</div>
+      <h2 id="trustTitle">The business grows<br><em>when you become freer.</em></h2>
+      <p>STATE is designed to help you create conditions outside the product. A buyer may fund access. They may not buy your inner life.</p>
+    </header>
+    <div class="trust-grid">
+      <article class="trust-principle"><span>01</span><b>Freedom over retention</b><p>Less dependence can be a better outcome than more usage.</p></article>
+      <article class="trust-principle"><span>02</span><b>Privacy over curiosity</b><p>Private states, notes and individual scores are not employer dashboards.</p></article>
+      <article class="trust-principle"><span>03</span><b>Conditions over coping theatre</b><p>STATE must not help institutions preserve conditions that are predictably harmful.</p></article>
+      <article class="trust-principle"><span>04</span><b>Evidence over spectacle</b><p>Claims need sources, limits and corrections. Personal change is not universal proof.</p></article>
+      <article class="trust-principle"><span>05</span><b>Payment over participation theatre</b><p>Creators and reviewers receive clear terms, acceptance criteria and real compensation.</p></article>
+      <article class="trust-principle"><span>06</span><b>Exit over lock-in</b><p>No streak shame, feed or next-dose upsell after completion.</p></article>
+    </div>
+    <section class="data-contract">
+      <div><h3>What stays yours</h3><ul><li>Your selected state</li><li>Your private notes</li><li>Your individual before/after ratings</li><li>Your next-hour reviews</li><li>Your decision to stop using STATE</li></ul></div>
+      <div><h3>What STATE refuses</h3><ul><li>Compulsory emotional check-ins</li><li>Individual wellbeing surveillance</li><li>Contracts paid by screen time</li><li>Manager access to private entries</li><li>Claims that exceed the evidence</li></ul></div>
+    </section>
+    <footer class="trust-footer">
+      <p>This prototype stores sessions only in this browser. Production privacy, security, research and institutional contracts require independent legal and expert review.</p>
+      <button class="button primary" type="button" id="trustUnderstood">Return to my dose</button>
+    </footer>
+  </article>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const STORAGE_KEY = 'state-v65-sessions';
+  const OLD_STORAGE_KEY = 'state-v63-sessions';
+  const formulas = {
+    overwhelmed:{name:'CALM',number:'10',minutes:10,unit:'GUIDED EXHALE',accent:'#9bcaff',accent2:'#d8eaff',
+      recognition:'You do not need to solve everything from here.',recognitionText:'Let us create a little more space before deciding what comes next.',
+      title:'Create a little more space.',description:'A gentle body-first practice using a comfortable longer exhale, sensory orientation and a clear return.',
+      mode:'breath',science:'A comfortable longer exhale may influence breathing pace and cardiac autonomic regulation. Individual comfort matters.',
+      source:'https://pubmed.ncbi.nlm.nih.gov/36630953/',exit:'Choose the next kind action, not the fastest reaction.'},
+    scattered:{name:'FOCUS',number:'25',minutes:25,unit:'ONE VISIBLE OUTCOME',accent:'#ef8062',accent2:'#f6c9ba',
+      recognition:'Your attention may need fewer doors, not more motivation.',recognitionText:'We will make one useful action more visible than the surrounding noise.',
+      title:'Make one outcome visible.',description:'A finite focus room that names one observable result and removes unnecessary exits.',
+      mode:'focus',science:'Reducing task scope and external distractions are behavioural mechanisms. STATE does not claim to read attention networks.',
+      source:'../docs/v6-source-standard.md',exit:'Open the exact place where the next useful action begins.'},
+    tense:{name:'RELEASE',number:'05',minutes:5,unit:'BODY SOFTENING',accent:'#ee785f',accent2:'#f5c7b9',
+      recognition:'Your body may be carrying the conversation for you.',recognitionText:'Before asking the mind for answers, let the muscles receive a different message.',
+      title:'Let the body put something down.',description:'A gentle sequence for jaw, shoulders, hands and breath—without forcing relaxation.',
+      mode:'release',science:'Voluntary awareness and release may change perceived tension. STATE does not measure muscle activity or clinical symptoms.',
+      source:'../docs/v6-source-standard.md',exit:'Carry less unnecessary effort into the next moment.'},
+    flat:{name:'WALK',number:'20',minutes:20,unit:'MOVEMENT + PERSPECTIVE',accent:'#9ed0a8',accent2:'#d8eadc',
+      recognition:'You may not need a better thought before you move.',recognitionText:'Let light, rhythm and a changing horizon meet you outside the screen.',
+      title:'Let the world move around you.',description:'An outdoor walking ritual combining movement, visual distance and a deliberate break from fixation.',
+      mode:'walk',science:'Walking combines physical activity, changing sensory input and environmental context. Effects depend on duration, setting and the person.',
+      source:'../docs/v6-source-standard.md',exit:'Stand up, find daylight if available, and let the first steps happen.'},
+    avoidant:{name:'COURAGE',number:'01',minutes:15,unit:'ONE BRAVE ACT',accent:'#c7b7ff',accent2:'#e7e0ff',
+      recognition:'Fear does not need to disappear before action begins.',recognitionText:'We will shrink the threshold until the first honest movement fits inside this minute.',
+      title:'Cross one visible threshold.',description:'A tiny-action ritual for beginning the necessary thing while fear is still present.',
+      mode:'courage',science:'Approach behaviour can reduce avoidance over time, but safety, consent and context determine whether an action is appropriate.',
+      source:'../docs/v6-source-standard.md',exit:'Let the completed first step remain real.'},
+    lonely:{name:'CONNECT',number:'02',minutes:20,unit:'TWO REAL QUESTIONS',accent:'#e9ca6d',accent2:'#f6eac0',
+      recognition:'Longing for connection is not a personal defect.',recognitionText:'Let us make one safe bridge toward another person—not an audience.',
+      title:'Make one safe bridge.',description:'A consent-based invitation into honest attention, two real questions and listening without immediately fixing.',
+      mode:'connect',science:'Perceived support and responsive listening are associated with wellbeing; this ritual cannot guarantee safety or repair.',
+      source:'../docs/v6-source-standard.md',exit:'Choose one reasonably safe person and one pressure-free invitation.'},
+    other:{name:'PAUSE',number:'02',minutes:2,unit:'NAME WHAT IS HERE',accent:'#b9c4ce',accent2:'#e1e6e9',
+      recognition:'Not everything needs to fit a predefined label.',recognitionText:'We can begin by naming what is here without immediately turning it into a problem to solve.',
+      title:'Give the experience a little shape.',description:'A short pause to name the present state, notice the body and choose one gentle next action.',
+      mode:'pause',science:'Naming and describing experience can support reflection. STATE does not promise a fixed emotional reduction.',
+      source:'../docs/v6-source-standard.md',exit:'Let one accurate sentence be enough for now.'}
+  };
+  let selectedState = null, current = formulas.overwhelmed, mode = localStorage.getItem('state-v65-mode') || localStorage.getItem('state-v63-mode') || 'ritual';
+  let selectedSeconds = 60, remaining = 60, total = 60, timer = null, paused = false, startedAt = null, status = 'started';
+  const screens = $$('.screen');
+  const toast = msg => { const el=$('#toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(window.__t); window.__t=setTimeout(()=>el.classList.remove('show'),2400); };
+  const show = (id,label) => { screens.forEach(s=>s.classList.toggle('hidden',s.id!==id)); $('#chapter').textContent='TRUSTED DAILY USE / '+label; window.scrollTo({top:0,behavior:'smooth'}); };
+  const format = s => `${String(Math.floor(Math.max(0,s)/60)).padStart(2,'0')}:${String(Math.max(0,s)%60).padStart(2,'0')}`;
+
+  const loadSessions = () => {
+    try {
+      let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      if (!items.length) {
+        const old = JSON.parse(localStorage.getItem(OLD_STORAGE_KEY) || '[]');
+        if (old.length) {
+          items = old.map(item => ({...item, immediateScore:item.nextHourScore ?? null, nextHourScore:item.nextHourScore ?? null, migrated:true}));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(items.slice(-150)));
+        }
+      }
+      return Array.isArray(items) ? items : [];
+    } catch { return []; }
+  };
+  const saveSessions = items => {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items.slice(-150))); } catch {}
+  };
+  const localDateKey = iso => {
+    const d = new Date(iso);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  };
+  const lastSevenDays = () => {
+    const result=[];
+    for(let i=6;i>=0;i--){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-i);result.push(d)}
+    return result;
+  };
+  function renderEvidence(){
+    const items=loadSessions();
+    const days=lastSevenDays();
+    const keys=new Set(items.map(item=>localDateKey(item.finishedAt || item.startedAt)));
+    $('#weekDots').innerHTML=days.map(d=>{
+      const key=localDateKey(d.toISOString()), used=keys.has(key), today=key===localDateKey(new Date().toISOString());
+      const label=d.toLocaleDateString(undefined,{weekday:'short'}).slice(0,2).toUpperCase();
+      return `<div class="week-day${used?' used':''}${today?' today':''}"><span>${label}</span></div>`;
+    }).join('');
+    const recent=items.filter(item=>new Date(item.finishedAt || item.startedAt)>=new Date(Date.now()-7*86400000));
+    const usedDays=new Set(recent.map(item=>localDateKey(item.finishedAt || item.startedAt))).size;
+    const shifts=recent.filter(item=>Number.isFinite(item.before)&&Number.isFinite(item.after)).map(item=>item.before-item.after);
+    const hours=recent.filter(item=>Number.isFinite(item.nextHourScore)).map(item=>item.nextHourScore);
+    $('#metricDays').textContent=usedDays;
+    $('#metricSessions').textContent=recent.length;
+    $('#metricShift').textContent=shifts.length?(shifts.reduce((a,b)=>a+b,0)/shifts.length).toFixed(1):'—';
+    $('#metricHour').textContent=hours.length?(hours.reduce((a,b)=>a+b,0)/hours.length).toFixed(1):'—';
+    const genuine=recent.filter(item=>item.genuineUse==='yes').length;
+    if(!recent.length) $('#evidenceInsight').textContent='Use STATE only when it is genuinely useful. Missing a day is information, not failure.';
+    else if(hours.length) $('#evidenceInsight').textContent=`${hours.length} delayed review${hours.length===1?'':'s'} completed. ${genuine} session${genuine===1?' was':'s were'} opened for a real need rather than prototype testing.`;
+    else $('#evidenceInsight').textContent='Immediate shifts are visible. Next-hour evidence appears only after time has actually passed.';
+  }
+  let pendingReviewId=null, selectedHourScore=null;
+  function renderFollowup(){
+    const items=loadSessions();
+    const unresolved=[...items].reverse().find(item=>item.finishedAt && !Number.isFinite(item.nextHourScore));
+    const card=$('#followupCard');
+    if(!unresolved){card.classList.add('hidden');return}
+    pendingReviewId=unresolved.id || unresolved.finishedAt;
+    card.classList.remove('hidden');
+    $('#followupFormula').textContent=unresolved.formula || 'your dose';
+    const dueAt=new Date(unresolved.finishedAt).getTime()+60*60*1000;
+    const remainingMs=dueAt-Date.now();
+    const buttons=$$('[data-hour-score]');
+    selectedHourScore=null;buttons.forEach(b=>b.classList.remove('selected'));$('#saveHourReview').disabled=true;
+    if(remainingMs>0){
+      const minutes=Math.max(1,Math.ceil(remainingMs/60000));
+      $('#followupContext').textContent='The immediate feeling is already saved. The real-world review opens after the hour has happened.';
+      $('#followupWait').textContent=`Available in about ${minutes} minute${minutes===1?'':'s'}.`;
+      buttons.forEach(b=>b.disabled=true);$('#hourNote').disabled=true;
+    }else{
+      $('#followupContext').textContent='Do not rate the promise. Rate the hour you actually lived.';
+      $('#followupWait').textContent='1 = not useful · 5 = meaningfully improved the hour';
+      buttons.forEach(b=>b.disabled=false);$('#hourNote').disabled=false;
+    }
+  }
+  $$('[data-hour-score]').forEach(button=>button.addEventListener('click',()=>{
+    if(button.disabled)return;
+    selectedHourScore=Number(button.dataset.hourScore);
+    $$('[data-hour-score]').forEach(b=>b.classList.toggle('selected',b===button));
+    $('#saveHourReview').disabled=false;
+  }));
+  $('#saveHourReview').addEventListener('click',()=>{
+    if(!selectedHourScore||!pendingReviewId)return;
+    const items=loadSessions();
+    const item=items.find(record=>(record.id||record.finishedAt)===pendingReviewId);
+    if(item){item.nextHourScore=selectedHourScore;item.nextHourNote=$('#hourNote').value.trim();item.nextHourReviewedAt=new Date().toISOString();saveSessions(items)}
+    $('#hourNote').value='';renderEvidence();renderFollowup();toast('Next-hour evidence saved privately.');
+  });
+  function openTrust(){
+    $('#trustOverlay').classList.remove('hidden');$('#trustOverlay').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';$('#closeTrust').focus();
+  }
+  function closeTrust(){
+    $('#trustOverlay').classList.add('hidden');$('#trustOverlay').setAttribute('aria-hidden','true');document.body.style.overflow='';
+  }
+  $('#openTrust').addEventListener('click',openTrust);$('#closeTrust').addEventListener('click',closeTrust);$('#trustUnderstood').addEventListener('click',closeTrust);
+  $('#trustOverlay').addEventListener('click',e=>{if(e.target===$('#trustOverlay'))closeTrust()});
+
+  function setMode(next){
+    mode=next; localStorage.setItem('state-v65-mode',mode);
+    $$('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+  }
+  $$('[data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode))); setMode(mode);
+
+  $$('.state-card').forEach(card=>card.addEventListener('click',()=>{
+    selectedState=card.dataset.state; current=formulas[selectedState];
+    $$('.state-card').forEach(c=>{c.classList.toggle('selected',c===card);c.setAttribute('aria-pressed',c===card?'true':'false')});
+    $('#otherInput').classList.toggle('show',selectedState==='other');
+    $('#selectionHint').textContent=`Selected: ${card.querySelector('strong').textContent}`;
+    $('#continueButton').disabled=false;
+    document.documentElement.style.setProperty('--accent',current.accent);document.documentElement.style.setProperty('--accent2',current.accent2);
+  }));
+
+  $('#continueButton').addEventListener('click',()=>{
+    if(!selectedState)return;
+    updateFormula();
+    if(mode==='quick') show('recommendation','ONE CONDITION');
+    else show('recognition','RECOGNITION');
+  });
+  $('#backToStates').addEventListener('click',()=>show('arrival','ARRIVE'));
+  $('#seeCondition').addEventListener('click',()=>show('recommendation','ONE CONDITION'));
+  $('#backRecognition').addEventListener('click',()=>show(mode==='quick'?'arrival':'recognition',mode==='quick'?'ARRIVE':'RECOGNITION'));
+
+  function updateFormula(){
+    $('#recognitionTitle').textContent=current.recognition;$('#recognitionText').textContent=current.recognitionText;
+    $('#sceneName').textContent=current.name;$('#sceneNumber').textContent=current.number;$('#sceneUnit').textContent=current.unit;
+    $('#recommendTitle').textContent=current.title;$('#recommendDescription').textContent=current.description;
+    $('#formulaName').textContent=current.name;$('#formulaNumber').textContent=current.number;$('#formulaUnit').textContent=`${current.unit} · ${current.minutes} MINUTES`;
+    $('#fullDoseLabel').textContent=`${current.minutes} minutes`;
+    $$('.dose-option')[1].dataset.seconds=String(current.minutes*60);
+    $('#scienceClaim').textContent=current.science;$('#scienceSource').href=current.source;
+    $('#practiceFormula').textContent=`${current.name} ${current.number}`;
+    document.documentElement.style.setProperty('--accent',current.accent);document.documentElement.style.setProperty('--accent2',current.accent2);
+    chooseDose(60);
+  }
+  function chooseDose(seconds){
+    selectedSeconds=seconds;
+    $$('.dose-option').forEach(b=>b.classList.toggle('active',Number(b.dataset.seconds)===seconds));
+    $('#beginDose').textContent=`Begin ${seconds===60?'60-second':'full'} dose →`;
+  }
+  $$('.dose-option').forEach(b=>b.addEventListener('click',()=>chooseDose(Number(b.dataset.seconds))));
+
+  const before=$('#beforeIntensity'), after=$('#afterIntensity');
+  before.addEventListener('input',()=>$('#beforeValue').textContent=before.value);
+  after.addEventListener('input',()=>$('#afterValue').textContent=after.value);
+
+  function guidance(){
+    const elapsed=total-remaining;
+    if(current.mode==='breath'){
+      const cycle=elapsed%10, inhale=cycle<4, phase=inhale?'inhale':'exhale';
+      $('#practice').dataset.phase=phase;$('#phaseLabel').textContent=phase.toUpperCase();
+      $('#phaseCount').textContent=inhale?Math.max(1,4-cycle):Math.max(1,10-cycle);
+      $('#practiceGuidance').textContent=inhale?'Inhale gently. Do not pull in more air than feels easy.':'Exhale softly and a little longer. Let the jaw and shoulders release.';
+      $('#practiceSub').textContent='No holds · nothing to achieve · return to natural breathing if uncomfortable';
+      return;
+    }
+    $('#practice').dataset.phase='inhale';$('#phaseLabel').textContent=current.name;$('#phaseCount').textContent=remaining;
+    const copy={focus:'Open the exact place where the work begins. Choose only the next visible action.',release:'Notice jaw, shoulders and hands. Soften only what releases without force.',walk:'Stand up. Find daylight if available. Let the first steps happen before analysis.',courage:'Make the threshold smaller. Open it, dial it, or write the first honest line.',connect:'Choose one reasonably safe person. Write one specific, pressure-free invitation.',pause:'Name what is here in one accurate sentence. Nothing more is required.'};
+    $('#practiceGuidance').textContent=copy[current.mode];$('#practiceSub').textContent='One finite condition · no performance · stop whenever needed';
+  }
+  function begin(){
+    total=selectedSeconds; remaining=total; paused=false;status='active';startedAt=new Date().toISOString();
+    $('#practice').classList.remove('hidden');$('#practice').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+    $('#practiceTime').textContent=format(remaining);$('#pauseDose').textContent='Pause';guidance();clearInterval(timer);
+    timer=setInterval(()=>{if(paused)return;remaining--;$('#practiceTime').textContent=format(remaining);guidance();if(remaining<=0)finish('completed')},1000);
+  }
+  function finish(nextStatus){
+    clearInterval(timer);status=nextStatus;$('#practice').classList.add('hidden');$('#practice').setAttribute('aria-hidden','true');document.body.style.overflow='';
+    const b=Number(before.value);after.value=Math.max(1,b-2);$('#afterValue').textContent=after.value;show('return','RETURN');
+  }
+  $('#beginDose').addEventListener('click',begin);
+  $('#pauseDose').addEventListener('click',()=>{paused=!paused;$('#pauseDose').textContent=paused?'Resume gently':'Pause'});
+  $('#completeDose').addEventListener('click',()=>finish('completed-early'));
+  $('#exitPractice').addEventListener('click',()=>{if(confirm('End the dose and continue to an honest reflection?'))finish('exited')});
+
+  $('#reflectionForm').addEventListener('submit',e=>{
+    e.preventDefault();const data=new FormData(e.currentTarget);
+    const finishedAt=new Date().toISOString();
+    const record={id:`${finishedAt}-${Math.random().toString(36).slice(2,8)}`,state:selectedState,other:selectedState==='other'?$('#otherText').value.trim():'',formula:`${current.name} ${current.number}`,mode,doseSeconds:total,status,startedAt,finishedAt,before:Number(before.value),after:Number(after.value),immediateScore:Number(data.get('immediateScore')),genuineUse:String(data.get('genuineUse')||'unsure'),nextHourScore:null,nextHourReviewedAt:null,note:$('#note').value.trim()};
+    const items=loadSessions();items.push(record);saveSessions(items);renderEvidence();renderFollowup();
+    $('#exitCopy').textContent=current.exit+' STATE has nothing else to sell you right now.';show('door','OPEN DOOR');toast('Immediate result saved. Next-hour evidence unlocks later.');
+  });
+  $('#leaveState').addEventListener('click',()=>{$('#final').classList.remove('hidden');document.body.style.overflow='hidden';document.title='STATE has ended — go use the hour'});
+  window.addEventListener('beforeunload',e=>{if(status==='active'){e.preventDefault();e.returnValue=''}});
+  renderEvidence();renderFollowup();setInterval(renderFollowup,60000);
+})();
+</script>
+</body>
+</html>
