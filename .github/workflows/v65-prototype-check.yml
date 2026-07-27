@@ -1,0 +1,44 @@
+name: V6.5 mobile learning loop check
+
+on:
+  pull_request:
+    paths:
+      - 'v65/**'
+      - 'docs/v65-mobile-learning-loop.md'
+      - '.github/workflows/v65-prototype-check.yml'
+  push:
+    branches:
+      - 'v6.5/mobile-learning-loop'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Confirm required files
+        run: |
+          test -f v65/index.html
+          test -f v65/mobile.css
+          test -f v65/data.js
+          test -f v65/app.js
+          test -f docs/v65-mobile-learning-loop.md
+      - name: Check JavaScript syntax
+        run: |
+          node --check v65/data.js
+          node --check v65/app.js
+      - name: Check mobile and learning-loop markers
+        run: |
+          grep -q 'viewport-fit=cover' v65/index.html
+          grep -q 'bottom-dock' v65/index.html
+          grep -q 'state-v65-sessions' v65/app.js
+          grep -q 'followUpDueAt' v65/app.js
+          grep -q 'wakeLock' v65/app.js
+          grep -q 'Personal learning' v65/index.html
+      - name: Check local asset paths
+        run: |
+          grep -q 'href="mobile.css"' v65/index.html
+          grep -q 'src="data.js"' v65/index.html
+          grep -q 'src="app.js"' v65/index.html
