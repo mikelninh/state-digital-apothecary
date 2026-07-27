@@ -20,22 +20,36 @@ jobs:
         run: |
           test -f v651/index.html
           test -f v651/beta.css
+          test -f v651/data.js
+          test -f v651/core.js
+          test -f v651/practice.js
+          test -f v651/beta-tools.js
           test -f v651/app.js
           test -f docs/v651-private-beta.md
           test -f docs/v651-friend-beta-kit.md
+          test -f vercel.json
       - name: JavaScript syntax
-        run: node --check v651/app.js
+        run: |
+          node --check v651/app.js
+          cat v651/data.js v651/core.js v651/practice.js v651/beta-tools.js > /tmp/v651-combined.js
+          node --check /tmp/v651-combined.js
       - name: Beta boundaries
         run: |
           grep -q 'Not for emergencies' v651/index.html
           grep -q 'at least 18' v651/index.html
           grep -q 'SESSION RECOVERY' v651/index.html
           grep -q 'PRIVATE BETA FEEDBACK' v651/index.html
-          grep -q 'navigator.share' v651/app.js
-          grep -q 'wakeLock' v651/app.js
-          grep -q 'state-v651-active' v651/app.js
-          grep -q 'No change recorded' v651/app.js
+          grep -R -q 'navigator.share' v651/*.js
+          grep -R -q 'wakeLock' v651/*.js
+          grep -R -q 'state-v651-active' v651/*.js
+          grep -R -q 'No change recorded' v651/*.js
+          grep -R -q 'testSession' v651/*.js
       - name: Local asset paths
         run: |
           grep -q 'href="beta.css"' v651/index.html
           grep -q 'src="app.js"' v651/index.html
+          grep -q "@import url('../v65/mobile.css')" v651/beta.css
+          grep -q "'data.js','core.js','practice.js','beta-tools.js'" v651/app.js
+      - name: Vercel beta route
+        run: |
+          grep -q '"destination": "/v651/index.html"' vercel.json
