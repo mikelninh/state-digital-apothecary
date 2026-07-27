@@ -51,10 +51,13 @@
   }
 
   function calmMarkup(existing) {
+    const oldPause = existing.querySelector('#pauseDose');
+    const oldComplete = existing.querySelector('#completeDose');
     const timerText = existing.querySelector('#doseTimer')?.textContent || '10:00';
     const context = existing.querySelector('.dose-subprompt')?.textContent || '';
-    const pauseLabel = existing.querySelector('#pauseDose')?.textContent || 'Pause';
-    const completeLabel = existing.querySelector('#completeDose')?.textContent || 'The action is complete';
+    const pauseLabel = oldPause?.textContent || 'Pause';
+    const completeLabel = oldComplete?.textContent || 'The action is complete';
+
     existing.innerHTML = `
       <section class="calm-room">
         <div>
@@ -84,6 +87,21 @@
         </div>
         <div class="dose-timer" id="doseTimer" hidden>${timerText}</div>
       </section>`;
+
+    /* Preserve the original nodes because the formula engine already attached its
+       pause and completion listeners before this enhancement runs. */
+    if (oldPause) {
+      const placeholder = existing.querySelector('#pauseDose');
+      oldPause.className = 'button';
+      oldPause.textContent = pauseLabel;
+      placeholder?.replaceWith(oldPause);
+    }
+    if (oldComplete) {
+      const placeholder = existing.querySelector('#completeDose');
+      oldComplete.className = 'button state';
+      oldComplete.textContent = completeLabel;
+      placeholder?.replaceWith(oldComplete);
+    }
 
     document.getElementById('breathPattern')?.addEventListener('change', event => {
       selectedPattern = event.target.value;
