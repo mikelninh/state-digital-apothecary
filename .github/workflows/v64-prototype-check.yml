@@ -1,0 +1,39 @@
+name: V6.4 charter check
+on:
+  pull_request:
+    paths:
+      - 'v64/**'
+      - 'docs/state-incentive-alignment-charter.md'
+      - '.github/workflows/v64-prototype-check.yml'
+  push:
+    branches:
+      - 'v6.4/incentive-alignment-charter'
+    paths:
+      - 'v64/**'
+      - 'docs/state-incentive-alignment-charter.md'
+      - '.github/workflows/v64-prototype-check.yml'
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm files
+        run: |
+          test -f v64/index.html
+          test -f docs/state-incentive-alignment-charter.md
+      - name: Check embedded JavaScript syntax
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          html = Path('v64/index.html').read_text(encoding='utf-8')
+          scripts = re.findall(r'<script>(.*?)</script>', html, flags=re.S)
+          assert scripts, 'No embedded script found'
+          Path('/tmp/v64.js').write_text('\n'.join(scripts), encoding='utf-8')
+          PY
+          node --check /tmp/v64.js
+      - name: Check required charter language
+        run: |
+          grep -q "The business should become stronger when the human becomes freer" v64/index.html
+          grep -q "Freedom over retention" docs/state-incentive-alignment-charter.md
+          grep -q "Metrics STATE refuses" docs/state-incentive-alignment-charter.md
