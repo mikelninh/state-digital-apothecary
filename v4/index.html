@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="STATE V4 — FOCUS 25. A finite digital dose designed to improve the next hour of real life." />
+  <meta name="theme-color" content="#11150f" />
+  <title>STATE V4 — FOCUS 25</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="grain"></div>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">S</span> STATE</div>
+    <div class="phase" id="phaseLabel">V4 / FIRST REAL DOSE</div>
+    <div class="privacy"><span class="privacy-dot"></span> Private by default</div>
+  </header>
+  <div class="progress-shell" aria-hidden="true"><div class="progress" id="progress"></div></div>
+
+  <main>
+    <section class="screen active" data-screen="landing">
+      <div class="hero shell">
+        <div class="hero-copy">
+          <div class="eyebrow">Formula 001 / Evidence beta</div>
+          <h1>FOCUS <em>25</em></h1>
+          <p>A finite digital ritual for moving one meaningful task from resistance into motion — then returning you to real life.</p>
+          <div class="actions">
+            <button class="button primary" data-action="begin">Take the dose</button>
+            <button class="button ghost" data-action="preview">Try 60-second preview</button>
+          </div>
+          <div class="microcopy">No account · No feed · No streak · Your session stays on this device unless you export it.</div>
+        </div>
+        <div class="product-stage" id="productStage" aria-label="FOCUS 25 product pack">
+          <div class="halo"></div>
+          <div class="pack" id="pack">
+            <div class="pack-label">
+              <small>STATE / FORMULA 001</small>
+              <strong>FOCUS</strong>
+              <span class="pack-number">25</span>
+              <div class="pack-foot"><span>ATTENTION<br>MOMENTUM</span><span>25 MIN<br>FINITE DOSE</span></div>
+            </div>
+          </div>
+          <span class="sticker one">Built to be closed</span>
+          <span class="sticker two">Outcome over attention</span>
+        </div>
+      </div>
+
+      <div class="evidence-bar" aria-label="Local evidence dashboard">
+        <div class="metric"><span>Sessions on this device</span><strong id="metricSessions">0</strong></div>
+        <div class="metric"><span>Completion rate</span><strong id="metricCompletion">—</strong></div>
+        <div class="metric"><span>Average next-hour score</span><strong id="metricScore">—</strong></div>
+        <div class="metric"><span>Claims made</span><strong>0</strong></div>
+      </div>
+
+      <div class="shell" style="padding:70px 0 90px">
+        <div class="principles">
+          <article class="principle"><small>01</small><strong>Finite by design</strong><p>The experience has a clear beginning, ending and invitation to leave.</p></article>
+          <article class="principle"><small>02</small><strong>Evidence starts at zero</strong><p>We collect honest outcomes before making impressive claims.</p></article>
+          <article class="principle"><small>03</small><strong>Proof without surveillance</strong><p>Your session produces a local receipt you can choose to share later.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="before">
+      <div class="flow-shell">
+        <div class="flow-head"><span class="step-number">01</span><div><p class="kicker">Before the dose</p><h2>Name the visible outcome.</h2><p>Not “work on my project”. Choose the smallest result another person could recognise as done.</p></div></div>
+        <form class="card" id="beforeForm">
+          <div class="field">
+            <label for="task">After 25 minutes, what will visibly exist?</label>
+            <input id="task" type="text" maxlength="180" required placeholder="Example: The first draft of my application opening paragraph" />
+            <span class="hint">Specific beats ambitious. One honest target.</span>
+          </div>
+          <div class="field">
+            <label for="resistanceBefore">How much resistance do you feel right now? <strong id="resistanceBeforeValue">6</strong>/10</label>
+            <input id="resistanceBefore" type="range" min="1" max="10" value="6" />
+            <div class="range-labels"><span>Easy to begin</span><span>Actively avoiding it</span></div>
+          </div>
+          <fieldset>
+            <legend>Current energy</legend>
+            <div class="choice-row">
+              <label class="choice"><input type="radio" name="energy" value="low"><span>Low</span></label>
+              <label class="choice"><input type="radio" name="energy" value="steady" checked><span>Steady</span></label>
+              <label class="choice"><input type="radio" name="energy" value="high"><span>High</span></label>
+            </div>
+          </fieldset>
+          <div class="actions"><button class="button primary" type="submit">Prepare the room</button><button class="button ghost" type="button" data-action="home">Not now</button></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="prepare">
+      <div class="flow-shell">
+        <div class="flow-head"><span class="step-number">02</span><div><p class="kicker">Prepare the environment</p><h2>Remove three tiny exits.</h2><p>Focus is not a heroic personality trait. It is often the result of fewer available escapes.</p></div></div>
+        <div class="card">
+          <div class="checklist">
+            <label class="check"><input type="checkbox" class="prep-check"><span><strong>Close irrelevant tabs and windows</strong><small>Leave only what the task genuinely requires.</small></span></label>
+            <label class="check"><input type="checkbox" class="prep-check"><span><strong>Put the phone outside easy reach</strong><small>Face down is not outside easy reach. Your clever monkey brain knows this.</small></span></label>
+            <label class="check"><input type="checkbox" class="prep-check"><span><strong>Open the exact place where work begins</strong><small>The document, editor, canvas or message — ready for the first action.</small></span></label>
+          </div>
+          <p class="hint" id="prepStatus" style="margin:22px 0">Complete all three. The ritual should make starting easier, not more ceremonial.</p>
+          <div class="actions"><button class="button primary" id="enterDose" disabled>Enter FOCUS 25</button><button class="button ghost" data-action="back-before">Back</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen dose-screen" data-screen="dose">
+      <div class="dose-room">
+        <div class="dose-top"><span><span class="live-dot"></span>Formula active</span><span id="doseModeLabel">25-minute dose</span></div>
+        <div class="dose-centre"><div class="dose-centre-inner"><p class="dose-task" id="doseTask">One task</p><p class="timer" id="timer">25:00</p><p class="dose-message" id="doseMessage">Begin before motivation arrives.</p></div></div>
+        <div class="dose-bottom"><button class="button primary" id="pauseButton">Pause</button><button class="button" id="completeEarly">I completed the outcome</button><button class="button danger" id="exitDose">Exit honestly</button></div>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="after">
+      <div class="flow-shell">
+        <div class="flow-head"><span class="step-number">03</span><div><p class="kicker">After the dose</p><h2>What actually changed?</h2><p>No gold stars for flattering the product. Honest friction is the evidence we need.</p></div></div>
+        <form class="card" id="afterForm">
+          <fieldset>
+            <legend>Did the visible outcome happen?</legend>
+            <div class="choice-row">
+              <label class="choice"><input type="radio" name="outcome" value="yes" required><span>Yes</span></label>
+              <label class="choice"><input type="radio" name="outcome" value="partly"><span>Partly</span></label>
+              <label class="choice"><input type="radio" name="outcome" value="no"><span>No</span></label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="resistanceAfter">How much resistance do you feel now? <strong id="resistanceAfterValue">3</strong>/10</label>
+            <input id="resistanceAfter" type="range" min="1" max="10" value="3" />
+          </div>
+          <fieldset>
+            <legend>Did this improve the next hour of your actual life?</legend>
+            <div class="score-row">
+              <label class="score-option"><input type="radio" name="score" value="1" required><span>1</span></label>
+              <label class="score-option"><input type="radio" name="score" value="2"><span>2</span></label>
+              <label class="score-option"><input type="radio" name="score" value="3"><span>3</span></label>
+              <label class="score-option"><input type="radio" name="score" value="4"><span>4</span></label>
+              <label class="score-option"><input type="radio" name="score" value="5"><span>5</span></label>
+            </div>
+            <div class="range-labels"><span>Made it worse</span><span>Meaningfully better</span></div>
+          </fieldset>
+          <div class="field"><label for="note">What helped or got in the way?</label><textarea id="note" maxlength="600" placeholder="A sentence is enough."></textarea></div>
+          <div class="actions"><button class="button primary" type="submit">Save honest result</button></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="receipt">
+      <div class="flow-shell">
+        <div class="flow-head"><span class="step-number">04</span><div><p class="kicker">Return to life</p><h2>Use the hour well.</h2><p>STATE is finished. The product succeeds when you leave it.</p></div></div>
+        <div class="card receipt">
+          <div class="receipt-grid">
+            <div><p class="kicker">Local proof of session</p><h3 id="receiptHeadline">One honest dose completed.</h3><p>This receipt is stored only in this browser. It is a first primitive for future proof-of-contribution — not a token, financial asset or on-chain claim.</p></div>
+            <div class="proof">
+              <div class="proof-row"><span>Formula</span><strong>FOCUS 25</strong></div>
+              <div class="proof-row"><span>Outcome</span><strong id="proofOutcome">—</strong></div>
+              <div class="proof-row"><span>Resistance change</span><strong id="proofResistance">—</strong></div>
+              <div class="proof-row"><span>Next-hour score</span><strong id="proofScore">—</strong></div>
+              <div class="proof-row"><span>Proof ID</span><strong id="proofId">—</strong></div>
+              <p class="local-proof">Future versions may allow users to voluntarily sign, publish or pool verified contributions. Privacy remains the default.</p>
+            </div>
+          </div>
+          <div class="actions" style="margin-top:28px"><button class="button primary" data-action="finish">Close STATE</button><button class="button" id="exportResult">Export this result</button></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>STATE</strong>
+    <blockquote>“Do not seek to be impressive. Seek to be genuinely useful — and make usefulness beautiful.”</blockquote>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
